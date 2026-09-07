@@ -150,7 +150,7 @@ else:
 st.write("---")
 col_l, col_r = st.columns(2)
 with col_r:
-    if st.button("❌ ABORT_MISSION"):
+    if st.button("❌ ABORTAR_MISSÃO"):
         st.session_state.posicao = 0
         st.session_state.pontos = 1000
         st.session_state.jogando = False
