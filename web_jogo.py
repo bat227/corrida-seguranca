@@ -36,7 +36,6 @@ st.markdown("""
         color: #00ff00 !important;
         border: 1px solid #00ff00 !important;
     }
-    /* Estilização especial para o botão de abortar missão no rodapé */
     div.element-container:has(button:contains("ABORT_MISSION")) button {
         background-color: #220000 !important;
         color: #ff3333 !important;
@@ -49,9 +48,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ==========================================
-# BANCO DE DADOS EXPANDIDO (MÓDULO FLIPPITY)
-# ==========================================
 if 'perguntas' not in st.session_state:
     st.session_state.perguntas = [
         {"pergunta": "O tratamento de dados pessoais pode ocorrer para o cumprimento de obrigação legal?", "opcoes": ["Sim, é uma das bases legais válidas da LGPD.", "Não, precisa sempre de consentimento absoluto.", "Apenas se o titular for menor de idade."], "correta": 0},
@@ -75,7 +71,6 @@ CASAS_ESPECIAIS = {
 
 CASA_FINAL = 15
 
-# GERENCIAMENTO DE ESTADO
 if 'posicao' not in st.session_state:
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
@@ -92,26 +87,20 @@ if 'posicao' not in st.session_state:
 
 st.title("🟢 Corrida pela Segurança Digital")
 
-# ========================================================
-# EXECUÇÃO DO FLUXO DO JOGO
-# ========================================================
 if not st.session_state.jogando:
     col_char, col_text = st.columns(2)
     with col_char:
         st.code("  😎 MORFEU\n   [=======]\n   | O   O |\n   |   v   |\n   \\ ===== /", language="markdown")
     with col_text:
         st.write("### 🕶️ Morfeu diz:")
-        st.info("'Esta é a sua última chance. Depois disso, não há retorno. Escolha a pílula vermelha, registre-se na Matrix da Segurança e veja até onde vai a toca do coelho...'")
+        st.info("'Esta é a sua última chance. Escolha a pílula vermelha, registre-se na Matrix da Segurança e veja até onde vai a toca do coelho...'")
     
-    st.markdown("""
-    ### 🧠 Por que utilizamos a ISO/IEC 12207?
-    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo se justifica por:
-    
-    *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes).
-    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo funcional dentro do prazo.
-    *   **Manutenibilidade:** Separa os dados das perguntas da camada visual, permitindo correções rápidas sem quebrar o jogo.
-    ---
-    """)
+    with st.expansor("🧠 [CLIQUE AQUI] Ver Documentação de Engenharia de Software (ISO 12207)"):
+        st.markdown("""
+        *   **Qualidade e Estrutura:** Divisão do projeto em etapas bem definidas.
+        *   **Mitigação de Riscos:** Uso de *Tailoring* (Adaptação) para entregar o protótipo.
+        *   **Manutenibilidade:** Separação dos dados das perguntas da camada visual.
+        """)
     
     nome_input = st.text_input("👤 Digite o seu codinome Hacker para se infiltrar:")
     if st.button("🚀 Tomar a Pílula Vermelha"):
@@ -121,24 +110,17 @@ if not st.session_state.jogando:
             st.session_state.pontos = 1000
             st.session_state.tempo_inicio = time.time()
             st.session_state.jogando = True
-            st.session_state.log_evento = f"Conexão estabelecida, {nome_input}. Entrando na Matrix corporativa..."
-            st.session_state.quizzes_respondidos = 0
-            st.session_state.quizzes_acertados = 0
-            st.session_state.game_over = False
+            st.session_state.log_evento = "Conexão estabelecida. Entrando na Matrix corporativa..."
             st.rerun()
-        else:
-            st.warning("É preciso digitar um codinome para descriptografar o acesso.")
-
 else:
     if st.session_state.game_over or st.session_state.pontos <= 0:
         col_char, col_text = st.columns(2)
         with col_char:
-            st.code("  🕴️ AGENTE SMITH\n    _______\n   / _   _ \\\n  | (O) (O) |\n  |    |    |\n   \\  ___  /\n    \\_____/", language="markdown")
+            st.code("  🕴️ AGENTE SMITH\n  | (O) (O) |\n   \\  ___  /", language="markdown")
         with col_text:
-            st.error("🚨 CONEXÃO INTERROMPIDA PELOS AGENTES!")
-            st.write("### 🕴️ Agente Smith diz:")
-            st.warning(f"'Ouve isso, Sr. {st.session_state.nome}? É o som do inevitável. Suas brechas na LGPD destruíram o Mainframe. É o fim de sua linha corporativa.'")
-        if st.button("🔄 Hackear Mainframe Novamente"):
+            st.error("🚨 CONEXÃO INTERROMPIDA!")
+            st.warning(f"'Ouve isso, Sr. {st.session_state.nome}? Suas brechas na LGPD destruíram o Mainframe.'")
+        if st.button("🔄 Hackear Novamente"):
             st.session_state.posicao = 0
             st.session_state.pontos = 1000
             st.session_state.jogando = False
@@ -147,16 +129,40 @@ else:
     elif st.session_state.posicao >= CASA_FINAL:
         tempo_total = round(time.time() - st.session_state.tempo_inicio, 2)
         st.balloons()
-        st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você cruzou o Mainframe em {tempo_total}s com {st.session_state.pontos} pontos!")
-        
-        col_char, col_text = st.columns(2)
-        with col_char:
-            st.code("  😎 NEO (VOCÊ)\n    _______\n   /       \\\n  |  O   O  |\n  |    ^    |\n   \\  ===  /\n    \\_____/", language="markdown")
-        with col_text:
-            st.write("### ⚡ Oráculo emite o Relatório:")
-            if st.session_state.quizzes_respondidos > 0:
-                if st.session_state.quizzes_acertados == st.session_state.quizzes_respondidos:
-                    st.subheader("🌟 NOTA: 10/10 - VOCÊ É O ESCOLHIDO!")
-                    st.markdown("Incrível! Você enxergou as linhas de código da LGPD e salvou a empresa sem cometer erros de privacidade.")
-                else:
-                    st.subheader(f"📊 NOTA: {st.session_state.quizzes_acertados} de {st.session_state.quizzes_respondidos} patches aplicados.")
+        st.success(f"🏆 SISTEMA INVADIDO! Concluído em {tempo_total}s com {st.session_state.pontos} pontos!")
+        if st.button("🔄 Nova Infiltração"):
+            st.session_state.posicao = 0
+            st.session_state.pontos = 1000
+            st.session_state.jogando = False
+            st.rerun()
+    else:
+        col_avatar, col_dialogo = st.columns(2)
+        with col_avatar:
+            if st.session_state.ultimo_personagem == "morfeu": st.code("  😎 MORFEU\n  |  O O  |")
+            elif st.session_state.ultimo_personagem == "trinity": st.code("  👩‍💻 TRINITY\n  |  - -  |")
+            else: st.code("  🕴️ SMITH\n  | (O)(O) |")
+        with col_dialogo:
+            if st.session_state.ultimo_personagem == "morfeu": st.markdown("**Morfeu:** 'Confie no seu treinamento de segurança.'")
+            elif st.session_state.ultimo_personagem == "trinity": st.markdown("**Trinity:** 'Firewalls respondendo bem.'")
+            else: st.markdown("**Agente Smith:** 'Vou interceptar seus dados.'")
+
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Hacker", st.session_state.nome)
+        col2.metric("Mainframe Sec", f"Nível {st.session_state.posicao}/{CASA_FINAL}")
+        col3.metric("Integridade", f"{st.session_state.pontos} pts")
+
+        trilha = [". "] * (CASA_FINAL + 1)
+        if st.session_state.posicao <= CASA_FINAL: trilha[st.session_state.posicao] = "🟢 "
+        st.code("Root_ | " + "".join(trilha) + " | _Admin", language="markdown")
+
+        if st.session_state.log_evento: st.info(st.session_state.log_evento)
+
+        if not st.session_state.mostrar_quiz:
+            if st.button("🎲 Executar Algoritmo de Dado"):
+                dado = random.randint(1, 4)
+                st.session_state.posicao += dado
+                st.session_state.log_evento = f"Algoritmo rodou: +{dado} camadas. Avançando para o nível {st.session_state.posicao}."
+                if st.session_state.posicao in CASAS_ESPECIAIS:
+                    ev = CASAS_ESPECIAIS[st.session_state.posicao]
+                    st.session_state.posicao += ev["efeito"]
+                    st.session_state.pontos += (ev["efeito"] * 100)
