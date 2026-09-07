@@ -27,7 +27,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Banco de dados revisado com 25 perguntas sobre a ISO/IEC 12207
+# Banco de dados revisado e fechado sem erros de sintaxe com 25 perguntas
 BANCO_PERGUNTAS = [
     {"pergunta": "Por que a ISO 12207 foi inventada?", "opcoes": ["Para unificar as linguagens de programação.", "Para acabar com o caos e padronizar os processos do ciclo de vida do software.", "Para tabelar o preço de venda de sistemas."], "correta": 1},
     {"pergunta": "Para que serve a ISO 12207?", "opcoes": ["Como um guia que define o que fazer desde a concepção até o descarte do software.", "Para criar códigos de inteligência artificial de forma automática.", "Para monitorar o uso de Wi-Fi nas empresas."], "correta": 0},
@@ -38,8 +38,8 @@ BANCO_PERGUNTAS = [
     {"pergunta": "Qual a função do processo de Análise de Requisitos?", "opcoes": ["Escrever as linhas de código do sistema.", "Descobrir, detalhar e documentar o que o software precisa fazer.", "Apagar as bases de dados antigas."], "correta": 1},
     {"pergunta": "O processo de Projeto da Arquitetura do Software define:", "opcoes": ["O plano de marketing para o lançamento.", "A estrutura interna, módulos, componentes e interfaces do sistema.", "O valor das licenças comerciais."], "correta": 1},
     {"pergunta": "O que é feito no processo de Implementação?", "opcoes": ["A tradução do design do software em linhas de código executável.", "A entrega do manual impresso para o cliente.", "A alteração de preços do contrato."], "correta": 0},
-    {"pergunta": "O que define o processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
-    {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o product mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
+    {"pergunta": "O que define the processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
+    {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o produto mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
     {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a especificação técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
     {"pergunta": "O Gerenciamento de Configuração serve para:", "opcoes": ["Controlar versões de arquivos (como o Git) e o histórico de modificações.", "Organizar as mesas físicas do escritório de desenvolvimento.", "Mudar o brilho da tela do software."], "correta": 0},
     {"pergunta": "A Gestão de Riscos está inserida em qual grupo da norma?", "opcoes": ["Processos de Acordo.", "Processos de Gerenciamento Técnico.", "Processos Técnicos."], "correta": 1},
@@ -56,8 +56,8 @@ BANCO_PERGUNTAS = [
     {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Quando o cliente faz o último pagamento."], "correta": 0}
 ]
 
-# Função para resetar o jogo de forma limpa e segura
-def reiniciar_jogo():
+# Função auxiliar para redefinir o estado inicial
+def iniciar_partida():
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
     indices = list(range(len(BANCO_PERGUNTAS)))
@@ -67,16 +67,15 @@ def reiniciar_jogo():
     st.session_state.feedback_msg = ""
     st.session_state.feedback_tipo = ""
 
-# Inicialização segura de variáveis de controle no session_state
+# Inicializa as variáveis na primeira execução da aplicação
 if 'posicao' not in st.session_state:
-    reiniciar_jogo()
+    iniciar_partida()
 
-# --- FORMATO VISUAL EXATO DO SEU PRINT ---
+# --- INTERFACE GRÁFICA FIXA ---
 st.title("🛡️ Corrida pela ISO 12207")
 
-# O botão chama a função de resetar
 if st.button("🔄 Hackear Novamente"):
-    reiniciar_jogo()
+    iniciar_partida()
     st.rerun()
 
 st.write("**Jogador:** Anônimo")
@@ -85,30 +84,31 @@ st.metric(label="Pontuação Hacking", value=st.session_state.pontos)
 
 st.markdown("---")
 
-# --- CONTEÚDO TEÓRICO (MANUAL DE INTRODUÇÃO) ---
+# --- CONTEÚDO EDUCACIONAL ---
 with st.expander("📖 Manual Hacker: Introdução e Propósito da ISO 12207"):
     st.markdown("""
     ### 💾 Por que ela foi inventada?
-    Antigamente, as equipes construíam software de forma caótica. Os prazos estouravam e a comunicação falhava. A ISO 12207 surgiu para criar um **padrão universal**.
+    As equipes construíam software de forma desorganizada. Prazos estouravam e a comunicação falhava. A ISO 12207 surgiu para criar um **padrão universal**.
     
     ### ⚙️ Para que ela serve?
-    Funciona como um mapa completo do ciclo de vida do sistema: da **ideia inicial ao descarte definitivo**.
+    Funciona como um mapa estruturado do ciclo de vida do sistema: da **ideia inicial ao descarte definitivo**.
     
     ### ⚠️ Precauções Importantes:
-    Não use a norma como uma obrigação burocrática de gerar papéis inúteis. Ajuste-a (**Tailoring**) conforme a necessidade real do tamanho da sua equipe!
+    Não torne a norma um fardo burocrático de gerar documentações inúteis. Realize a adaptação (**Tailoring**) conforme as dimensões da sua equipe!
     """)
 
 st.markdown("---")
 
-# Exibe as mensagens de acerto ou erro da rodada anterior
-if st.session_state.get('feedback_msg'):
+# Exibe notificações persistentes de acerto ou erro
+if st.session_state.feedback_msg:
     if st.session_state.feedback_tipo == "sucesso":
         st.success(st.session_state.feedback_msg)
     else:
         st.error(st.session_state.feedback_msg)
 
-# --- FLUXO DO JOGO ---
+# --- EXECUÇÃO LOGICIAL DO TABULEIRO ---
 if st.session_state.posicao >= 15:
     st.balloons()
-    st.success("🏆 EXCELENTE! Você dominou o ciclo de vida do software sem repetir perguntas e venceu o jogo!")
+    st.success("🏆 EXCELENTE! Você dominou o ciclo de vida do software e completou o tabuleiro da ISO 12207!")
 elif st.session_state.pontos <= 0:
+    st.error("💀 GAME OVER! Seus pontos de integridade zeraram devido a falhas técnicas sucessivas.")
