@@ -57,10 +57,10 @@ if 'perguntas' not in st.session_state:
     ]
 
 CASAS_ESPECIAIS = {
-    3: {"msg": "⚠️ Alerta de Invasão! Você navegou num site sem verificação de segurança! (Volte 2 casas)", "efeito": -2},
-    6: {"msg": "🛡️ Conexão Segura! Você chegou aos três pilares da LGPD - pessoas, processos e tecnologia! (Avance 2 casas)", "efeito": 2},
-    9: {"msg": "🚨 Brecha detectada! A ANPD fiscalizou sua empresa e aplicou sanções! (Volte 3 casas)", "efeito": -3},
-    12: {"msg": "💼 Protocolo correto! Você garantiu fácil acesso aos titulares sobre o tratamento de dados! (Avance 1 casa)", "efeito": 1}
+    3: {"msg": "⚠️ Alerta de Invasão! Você navegou num site sem verificação de segurança! (Volte 2 casas)", "efeito": -2, "char": "smith"},
+    6: {"msg": "🛡️ Conexão Segura! Você chegou aos três pilares da LGPD - pessoas, processos e tecnologia! (Avance 2 casas)", "efeito": 2, "char": "morfeu"},
+    9: {"msg": "🚨 Brecha detectada! A ANPD fiscalizou sua empresa e aplicou sanções! (Volte 3 casas)", "efeito": -3, "char": "smith"},
+    12: {"msg": "💼 Protocolo correto! Você garantiu fácil acesso aos titulares sobre o tratamento de dados! (Avance 1 casa)", "efeito": 1, "char": "trinity"}
 }
 
 CASA_FINAL = 15
@@ -78,64 +78,84 @@ if 'posicao' not in st.session_state:
     st.session_state.quizzes_respondidos = 0
     st.session_state.quizzes_acertados = 0
     st.session_state.game_over = False
+    st.session_state.ultimo_personagem = "morfeu"
 
 st.title("🟢 Corrida pela Segurança Digital")
 
-# ========================================================
-# AUDIO PLAYER EM HTML (BLINDADO CONTRA BLOQUEIOS) 🎵
-# ========================================================
-st.caption("🔊 **Trilha Cyberpunk Matrix: Clique no botão de reprodução abaixo para liberar o áudio**")
-st.markdown('<audio src="https://archive.org" controls loop style="width:100%; filter: invert(1);"></audio>', unsafe_allow_html=True)
-
-# Botão para redefinir a partida
+# Botão fixo no topo para limpar estados travados do navegador
 if st.button("🔄 Resetar Sistema (Voltar ao Início)"):
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
     st.session_state.jogando = False
     st.session_state.mostrar_quiz = False
     st.session_state.game_over = False
+    st.session_state.ultimo_personagem = "morfeu"
     st.rerun()
 
 # ========================================================
 # EXECUÇÃO DO JOGO
 # ========================================================
 if not st.session_state.jogando:
+    col_char, col_text = st.columns([1, 3])
+    with col_char:
+        st.code("""
+  😎 MORFEU
+   [=======]
+
+   | O   O |
+   |   v   |
+   \ ===== /
+        """, language="markdown")
+    with col_text:
+        st.write("### 🕶️ Morfeu diz:")
+        st.info("'Esta é a sua última chance. Depois disso, não há retorno. Escolha a pílula vermelha, registre-se na Matrix da Segurança e veja até onde vai a toca do coelho...'")
+    
     st.markdown("""
-    ### 📖 Introdução ao Projeto
-    Bem-vindo à **Corrida pela Segurança Digital**! Este software foi projetado e documentado como um estudo prático de **Engenharia de Software**, abordando a conscientização sobre a Lei Geral de Proteção de Dados (LGPD) e boas práticas de segurança cibernética.
-    
     ### 🧠 Por que utilizamos a ISO/IEC 12207?
-    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo e no mercado real se justifica por:
+    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo se justifica por:
     
-    *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes), garantindo que o software não seja apenas uma 'gambiarra', mas um sistema robusto.
-    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), conseguimos cortar processos burocráticos pesados para entregar um protótipo perfeitamente funcional dentro do curto prazo da faculdade.
-    *   **Manutenibilidade:** A estrutura isola a camada de dados (nosso banco de perguntas) da camada visual, permitindo correções rápidas no sistema sem quebrar o jogo.
-    
+    *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes).
+    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo perfeitamente funcional dentro do prazo.
+    *   **Manutenibilidade:** Separa os dados das perguntas da camada de visualização, facilitando melhorias contínuas.
     ---
     """)
     
-    nome_input = st.text_input("👤 Digite o nome do Hacker ou Grupo para iniciar:")
-    if st.button("🚀 Iniciar Infiltração"):
+    nome_input = st.text_input("👤 Digite o seu codinome Hacker para se infiltrar:")
+    if st.button("🚀 Tomar a Pílula Vermelha"):
         if nome_input:
             st.session_state.nome = nome_input
             st.session_state.posicao = 0
             st.session_state.pontos = 1000
             st.session_state.tempo_inicio = time.time()
             st.session_state.jogando = True
-            st.session_state.log_evento = "Infiltração iniciada. Contornando firewalls..."
+            st.session_state.log_evento = f"Conexão estabelecida, {nome_input}. Entrando na Matrix corporativa..."
             st.session_state.quizzes_respondidos = 0
             st.session_state.quizzes_acertados = 0
             st.session_state.game_over = False
             st.rerun()
         else:
-            st.warning("Por favor, preencha a credencial de identificação.")
+            st.warning("É preciso digitar um codinome para descriptografar o acesso.")
 
 else:
     # SISTEMA DE GAME OVER 🚨
     if st.session_state.game_over or st.session_state.pontos <= 0:
-        st.error("🚨 CONEXÃO INTERROMPIDA! Suas falhas de segurança causaram um colapso no sistema!")
-        st.markdown("O mainframe da sua organização foi exposto. Backup de dados corrompido.")
-        if st.button("🔄 Reiniciar Terminal"):
+        col_char, col_text = st.columns([1, 3])
+        with col_char:
+            st.code("""
+  🕴️ AGENTE SMITH
+    _______
+   / _   _ \
+
+  | (O) (O) |
+  |    |    |
+   \  ___  /
+    \_____/
+            """, language="markdown")
+        with col_text:
+            st.error("🚨 CONEXÃO INTERROMPIDA PELOS AGENTES!")
+            st.write("### 🕴️ Agente Smith diz:")
+            st.warning(f"'Ouve isso, Sr. {st.session_state.nome}? É o som do inevitável. Suas brechas na LGPD destruíram o Mainframe. É o fim de sua linha corporativa.'")
+        if st.button("🔄 Hackear Mainframe Novamente"):
             st.session_state.posicao = 0
             st.session_state.pontos = 1000
             st.session_state.jogando = False
@@ -145,17 +165,25 @@ else:
     elif st.session_state.posicao >= CASA_FINAL:
         tempo_total = round(time.time() - st.session_state.tempo_inicio, 2)
         st.balloons()
-        st.success(f"🏆 SISTEMA INVADIDO COM SUCESSO! Você concluiu a corrida em {tempo_total}s com {st.session_state.pontos} pontos corporativos!")
+        st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você cruzou o Mainframe em {tempo_total}s com {st.session_state.pontos} pontos!")
         
-        st.write("### 📝 Relatório de Auditoria Digital (Nota)")
-        if st.session_state.quizzes_respondidos > 0:
-            if st.session_state.quizzes_acertados == st.session_state.quizzes_respondidos:
-                st.subheader("🌟 NOTA: 10/10 - ARQUITETO DA SEGURANÇA")
-                st.markdown("Excepcional! Você contornou todas as armadilhas de privacidade sem deixar rastros.")
-            else:
-                erros = st.session_state.quizzes_respondidos - st.session_state.quizzes_acertados
-                st.subheader(f"📊 NOTA: {st.session_state.quizzes_acertados} de {st.session_state.quizzes_respondidos} patches aplicados.")
-                st.markdown(f"Acesso concedido. Porém, sua rede sofreu {erros} vazamento(s) temporário(s) de pacotes.")
-        else:
-            st.subheader("⚠️ NOTA: PROTETOR PASSIVO")
-            st.markdown("Você venceu contando com os algoritmos aleatórios de movimento.")
+        col_char, col_text = st.columns([1, 3])
+        with col_char:
+            st.code("""
+  😎 NEO (VOCÊ)
+    _______
+   /       \
+
+  |  O   O  |
+  |    ^    |
+   \  ===  /
+    \_____/
+            """, language="markdown")
+        with col_text:
+            st.write("### ⚡ Oráculo emite o Relatório:")
+            if st.session_state.quizzes_respondidos > 0:
+                if st.session_state.quizzes_acertados == st.session_state.quizzes_respondidos:
+                    st.subheader("🌟 NOTA: 10/10 - VOCÊ É O ESCOLHIDO!")
+                    st.markdown("Incrível! Você enxergou as linhas de código da LGPD e salvou a empresa sem cometer erros de privacidade.")
+                else:
+                    st.subheader(f"📊 NOTA: {st.session_state.quizzes_acertados} de {st.session_state.quizzes_respondidos} patches aplicados.")
