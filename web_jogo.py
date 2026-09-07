@@ -6,7 +6,7 @@ import time
 st.set_page_config(page_title="Corrida pela Segurança", page_icon="🛡️", layout="centered")
 
 # ==========================================
-# BANCO DE DADOS (FLIPPITY / ISO 12207)
+# BANCO DE DADOS EXPANDIDO (MÓDULO FLIPPITY)
 # ==========================================
 if 'perguntas' not in st.session_state:
     st.session_state.perguntas = [
@@ -21,9 +21,44 @@ if 'perguntas' not in st.session_state:
             "correta": 1
         },
         {
-            "pergunta": "Deixar o computador de trabalho desbloqueado ao ir almoçar viola qual pilar?",
+            "pergunta": "Deixar o computador de trabalho desbloqueado ao ir almoçar viola qual pilar da Segurança?",
             "opcoes": ["Disponibilidade.", "Integridade.", "Confidencialidade."],
             "correta": 2
+        },
+        {
+            "pergunta": "O que caracteriza um ataque de 'Phishing'?",
+            "opcoes": ["Um vírus que bloqueia os arquivos do computador exigindo resgate.", "E-mails ou mensagens falsas que imitam instituições reais para roubar dados.", "Um acesso físico não autorizado ao servidor da empresa."],
+            "correta": 1
+        },
+        {
+            "pergunta": "Qual das seguintes opções é considerada um 'Dado Pessoal Sensível' segundo a LGPD?",
+            "opcoes": ["Número de telefone celular.", "Origem racial/étnica, convicção religiosa ou dados de saúde.", "Endereço comercial da empresa."],
+            "correta": 1
+        },
+        {
+            "pergunta": "Qual é a função principal da ANPD (Autoridade Nacional de Proteção de Dados)?",
+            "opcoes": ["Criar os códigos de programação dos sistemas do governo.", "Fiscalizar e aplicar sanções a empresas que descumprirem a LGPD.", "Vender softwares de antivírus corporativos."],
+            "correta": 1
+        },
+        {
+            "pergunta": "O que significa o pilar da 'Integridade' na Segurança da Informação?",
+            "opcoes": ["Garantir que a informação esteja disponível sempre que necessário.", "Garantir que a informação não seja alterada ou corrompida por pessoas não autorizadas.", "Garantir que apenas pessoas autorizadas vejam a informação."],
+            "correta": 1
+        },
+        {
+            "pergunta": "Qual destas práticas ajuda a mitigar o risco de Engenharia Social nas empresas?",
+            "opcoes": ["Instalar apenas um firewall de rede potente.", "Realizar treinamentos periódicos de conscientização com os funcionários.", "Aumentar a velocidade da internet dos servidores."],
+            "correta": 1
+        },
+        {
+            "pergunta": "No contexto da LGPD, quem é a figura do 'Controlador'?",
+            "opcoes": ["A pessoa ou empresa a quem competem as decisões sobre o tratamento dos dados.", "O funcionário de TI que digita o código do sistema.", "O cliente dono dos dados pessoais."],
+            "correta": 0
+        },
+        {
+            "pergunta": "O que é criptografia de chave pública/privada?",
+            "opcoes": ["Um método para apagar permanentemente os dados do servidor físico.", "Uma técnica de embaralhar dados para que apenas quem tem a chave correta possa ler.", "Uma senha simples que todos os funcionários compartilham."],
+            "correta": 1
         }
     ]
 
@@ -48,6 +83,8 @@ if 'posicao' not in st.session_state:
     st.session_state.log_evento = ""
 
 st.title("🛡️ Corrida pela Segurança Digital")
+st.subheader("Trabalho Acadêmico de Engenharia de Software")
+
 # ========================================================
 # TELA DE INTRODUÇÃO E IMPORTÂNCIA DA ISO 12207
 # ========================================================
