@@ -15,6 +15,10 @@ st.markdown("""
         border: 1px solid #00ff00 !important;
         font-weight: bold;
         width: 100%;
+        text-align: left !important;
+        padding: 12px !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
     .stButton>button:hover { 
         background-color: #00ff00 !important; 
@@ -22,14 +26,13 @@ st.markdown("""
     }
     code { background-color: #1a1a1a !important; color: #00ff00 !important; }
     div[data-testid="stMetricValue"] { color: #00ff00 !important; }
-    .stRadio label { color: #ffffff !important; font-size: 16px; }
     div[data-testid="stMarkdownContainer"] p { color: #ffffff !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# Banco de dados revisado e fechado sem erros de sintaxe com 25 perguntas
+# Banco de dados revisado com 25 perguntas sobre a ISO/IEC 12207
 BANCO_PERGUNTAS = [
-    {"pergunta": "Por que a ISO 12207 foi inventada?", "opcoes": ["Para unificar as linguagens de programação.", "Para acabar com o caos e padronizar os processos do ciclo de vida do software.", "Para tabelar o preço de venda de sistemas."], "correta": 1},
+    {"pergunta": "Por que a ISO 12207 foi inventada?", "opcoes": ["Para unificar as linguagens de programação mundiais.", "Para acabar com o caos e padronizar os processos do ciclo de vida do software.", "Para tabelar o preço de venda de sistemas."], "correta": 1},
     {"pergunta": "Para que serve a ISO 12207?", "opcoes": ["Como um guia que define o que fazer desde a concepção até o descarte do software.", "Para criar códigos de inteligência artificial de forma automática.", "Para monitorar o uso de Wi-Fi nas empresas."], "correta": 0},
     {"pergunta": "Qual cuidado (precaução) devemos ter ao adotar a norma?", "opcoes": ["Ela deve ser copiada de forma rígida, sem nenhuma alteração.", "Ela diz 'o que' fazer, mas não 'como'. Deve ser adaptada ao projeto.", "Ela só pode ser aplicada se a empresa usar a linguagem C++."], "correta": 1},
     {"pergunta": "O que caracteriza o erro da burocracia excessiva ao aplicar a norma?", "opcoes": ["Gerar toneladas de relatórios e documentos que não trazem valor real ao produto.", "Diminuir a quantidade de testes de segurança.", "Aumentar demais o salário dos programadores."], "correta": 0},
@@ -53,11 +56,11 @@ BANCO_PERGUNTAS = [
     {"pergunta": "O processo de Garantia da Qualidade do Software serve para:", "opcoes": ["Garantir de forma independente que os processos e produtos estão seguindo os planos estipulados.", "Aumentar a velocidade dos downloads.", "Escrever relatórios de vendas para os diretores."], "correta": 0},
     {"pergunta": "O que avalia o processo de Auditoria?", "opcoes": ["A conformidade do produto em relação a contratos e requisitos técnicos definidos.", "O horário de entrada e saída dos funcionários.", "O layout do site do cliente."], "correta": 0},
     {"pergunta": "Qual processo foca no monitoramento do progresso em relação aos planos técnicos e prazos?", "opcoes": ["Processo de Avaliação e Controle Técnico.", "Processo de Descarte.", "Processo de Suprimento."], "correta": 0},
-    {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Qual o cliente faz o último pagamento."], "correta": 0}
+    {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Quando o cliente faz o último pagamento."], "correta": 0}
 ]
 
-# Função auxiliar para redefinir o estado inicial
-def iniciar_partida():
+# Função para resetar o jogo de forma limpa e segura
+def reiniciar_jogo():
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
     indices = list(range(len(BANCO_PERGUNTAS)))
@@ -67,15 +70,14 @@ def iniciar_partida():
     st.session_state.feedback_msg = ""
     st.session_state.feedback_tipo = ""
 
-# Inicializa as variáveis na primeira execução da aplicação
 if 'posicao' not in st.session_state:
-    iniciar_partida()
+    reiniciar_jogo()
 
-# --- INTERFACE GRÁFICA FIXA ---
+# --- 1. CABEÇALHO (EXATO FORMATO DO SEU PRINT) ---
 st.title("🛡️ Corrida pela ISO 12207")
 
 if st.button("🔄 Hackear Novamente"):
-    iniciar_partida()
+    reiniciar_jogo()
     st.rerun()
 
 st.write("**Jogador:** Anônimo")
@@ -84,31 +86,28 @@ st.metric(label="Pontuação Hacking", value=st.session_state.pontos)
 
 st.markdown("---")
 
-# --- CONTEÚDO EDUCACIONAL ---
-with st.expander("📖 Manual Hacker: Introdução e Propósito da ISO 12207"):
-    st.markdown("""
-    ### 💾 Por que ela foi inventada?
-    As equipes construíam software de forma desorganizada. Prazos estouravam e a comunicação falhava. A ISO 12207 surgiu para criar um **padrão universal**.
-    
-    ### ⚙️ Para que ela serve?
-    Funciona como um mapa estruturado do ciclo de vida do sistema: da **ideia inicial ao descarte definitivo**.
-    
-    ### ⚠️ Precauções Importantes:
-    Não torne a norma um fardo burocrático de gerar documentações inúteis. Realize a adaptação (**Tailoring**) conforme as dimensões da sua equipe!
-    """)
+# --- 2. INTRODUÇÃO E EXPLICAÇÕES (TOTALMENTE VISÍVEIS NA TELA) ---
+st.header("📖 Manual do Sistema: Entendendo a ISO/IEC 12207")
 
-st.markdown("---")
+col1, col2 = st.columns(2)
+with col1:
+    st.subheader("💾 Por que foi inventada?")
+    st.write(
+        "Antigamente, as equipes construíam software de forma totalmente caótica. "
+        "Os prazos estouravam, os custos saíam do controle e a comunicação falhava. "
+        "A norma surgiu para estabelecer uma linguagem comum e organizar o mercado global."
+    )
 
-# Exibe notificações persistentes de acerto ou erro
-if st.session_state.feedback_msg:
-    if st.session_state.feedback_tipo == "sucesso":
-        st.success(st.session_state.feedback_msg)
-    else:
-        st.error(st.session_state.feedback_msg)
+with col2:
+    st.subheader("⚙️ Para que ela serve?")
+    st.write(
+        "Funciona como um mapa completo que define todas as atividades do ciclo de vida "
+        "de um sistema. Ela acompanha o software desde a concepção da primeira ideia, "
+        "passando pelo desenvolvimento e uso diário, até a sua desativação definitiva."
+    )
 
-# --- EXECUÇÃO LOGICIAL DO TABULEIRO (ALINHAMENTO CORRIGIDO) ---
-if st.session_state.posicao >= 15:
-    st.balloons()
-    st.success("🏆 EXCELENTE! Você dominou o ciclo de vida do software e completou o tabuleiro da ISO 12207!")
-elif st.session_state.pontos <= 0:
-    st.error("💀 GAME OVER! Seus pontos de integridade zeraram devido a falhas técnicas sucessivas.")
+st.subheader("⚠️ Precauções Importantes ao Utilizar:")
+st.write(
+    "A norma aponta **o que fazer**, mas deixa as equipes livres para escolher **como fazer** "
+    "(quais ferramentas ou linguagens usar). O maior perigo ao adotá-la é gerar uma "
+    "burocracia excessiva de relatórios e documentos que não trazem valor real ao produto. "
