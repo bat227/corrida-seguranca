@@ -40,7 +40,7 @@ BANCO_PERGUNTAS = [
     {"pergunta": "O processo de Projeto da Arquitetura do Software define:", "opcoes": ["O plano de marketing para o lançamento.", "A estrutura interna, módulos, componentes e interfaces do sistema.", "O valor das licenças comerciais."], "correta": 1},
     {"pergunta": "O que é feito no processo de Implementação?", "opcoes": ["A tradução do design do software em linhas de código executável.", "A entrega do manual impresso para o cliente.", "A alteração de preços do contrato."], "correta": 0},
     {"pergunta": "O que define o processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
-    {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o product mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
+    {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o produto mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
     {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a especificação técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
     {"pergunta": "O Gerenciamento de Configuração serve para:", "opcoes": ["Controlar versões de arquivos (como o Git) e o histórico de modificações.", "Organizar as mesas físicas do escritório de desenvolvimento.", "Mudar o brilho da tela do software."], "correta": 0},
     {"pergunta": "A Gestão de Riscos está inserida em qual grupo da norma?", "opcoes": ["Processos de Acordo.", "Processos de Gerenciamento Técnico.", "Processos Técnicos."], "correta": 1},
@@ -57,25 +57,31 @@ BANCO_PERGUNTAS = [
     {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Quando o cliente faz o último pagamento."], "correta": 0}
 ]
 
-# Função para inicializar o jogo com segurança
-def iniciar_jogo():
+# Inicialização segura do estado do jogo
+if 'posicao' not in st.session_state:
+    st.session_state.posicao = 0
+if 'pontos' not in st.session_state:
+    st.session_state.pontos = 1000
+if 'perguntas_disponiveis' not in st.session_state:
+    indices = list(range(len(BANCO_PERGUNTAS)))
+    random.shuffle(indices)
+    st.session_state.perguntas_disponiveis = indices
+if 'pergunta_atual_idx' not in st.session_state:
+    st.session_state.pergunta_atual_idx = st.session_state.perguntas_disponiveis.pop(0)
+if 'feedback_msg' not in st.session_state:
+    st.session_state.feedback_msg = "Jogo Inicializado. Selecione uma opção abaixo!"
+
+# --- Cabeçalho e Métricas ---
+st.title("🛡️ Corrida pela ISO 12207")
+
+if st.button("🔄 Hackear Novamente"):
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
     indices = list(range(len(BANCO_PERGUNTAS)))
     random.shuffle(indices)
     st.session_state.perguntas_disponiveis = indices
     st.session_state.pergunta_atual_idx = st.session_state.perguntas_disponiveis.pop(0)
-    st.session_state.feedback_msg = "Acesse o quiz abaixo para iniciar!"
-    st.session_state.feedback_tipo = "info"
-
-if 'posicao' not in st.session_state:
-    iniciar_jogo()
-
-# --- 1. CABEÇALHO PRINCIPAL ---
-st.title("🛡️ Corrida pela ISO 12207")
-
-if st.button("🔄 Hackear Novamente", key="btn_global_reset"):
-    iniciar_jogo()
+    st.session_state.feedback_msg = "Jogo Reiniciado!"
     st.rerun()
 
 st.write("**Jogador:** Anônimo")
@@ -84,7 +90,7 @@ st.metric(label="Pontuação Hacking", value=st.session_state.pontos)
 
 st.markdown("---")
 
-# --- 2. INTRODUÇÃO E EXPLICAÇÕES ---
+# --- Introdução e Explicações ---
 st.header("📖 Manual do Sistema: Entendendo a ISO/IEC 12207")
 
 col1, col2 = st.columns(2)
@@ -97,8 +103,3 @@ with col2:
     st.write("Funciona como um mapa completo que define todas as atividades do ciclo de vida de um sistema. Ela acompanha o software desde a concepção da primeira ideia, passando pelo desenvolvimento e uso diário, até a sua desativação definitiva.")
 
 st.subheader("⚠️ Precauções Importantes ao Utilizar:")
-st.write("A norma aponta o que fazer, mas deixa as equipes livres para escolher como fazer (quais ferramentas ou linguagens usar). O maior perigo ao adotá-la é gerar uma burocracia excessiva de relatórios e documentos que não trazem valor real ao produto. Por isso, use sempre o processo de adaptação (Tailoring) para ajustar o tamanho della norma ao tamanho real do seu projeto!")
-
-st.markdown("---")
-
-# --- 3. EXIBIÇÃO DE ALERTA DE ACERTO OU ERRO ---
