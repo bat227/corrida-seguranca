@@ -50,7 +50,7 @@ LISTA_PERGUNTAS = [
     {"pergunta": "Qual é a base legal correta para coletar dados médicos de um colaborador em um exame admissional?", "opcoes": ["Legítimo interesse do patrão.", "Cumprimento de obrigação legal ou regulatória pelo controlador.", "Consentimento livre e revogável."], "correta": 1},
     {"pergunta": "O que descreve a Engenharia Social?", "opcoes": ["Manipulação psicológica de pessoas para que executem ações ou revelem segredos.", "Construção de infraestruturas físicas de TI.", "Programação de algoritmos de redes sociais."], "correta": 0},
     {"pergunta": "Uma senha considerada forte deve conter quais características?", "opcoes": ["Apenas letras maiúsculas organizadas em ordem alfabética.", "Combinação de letras maiúsculas, minúsculas, números e caracteres especiais.", "O nome do usuário seguido do ano de nascimento."], "correta": 1},
-    {"pergunta": "Qual o papel do 'Operador' de dados segundo as regras da LGPD?", "opcoes": ["Realizar o tratamento de dados pessoais em nome e seguindo ordens do Controlador.", "Definir as finalidades da coleta dos dados.", "Fiscalizar as ações da ANPD."], "correta": 0},
+    {"pergunta": "Qual do papel do 'Operador' de dados segundo as regras da LGPD?", "opcoes": ["Realizar o tratamento de dados pessoais em nome e seguindo ordens do Controlador.", "Definir as finalidades da coleta dos dados.", "Fiscalizar as ações da ANPD."], "correta": 0},
     {"pergunta": "Se um cliente solicitar a exclusão de seus dados da base da empresa, o que deve ser feito?", "opcoes": ["Apagar na hora, exceto se houver obrigação legal ou regulatória para mantê-los.", "Recusar a exclusão sob qualquer hipótese.", "Cobrar uma taxa de remoção de dados do cliente."], "correta": 0}
 ]
 
@@ -63,7 +63,7 @@ CASAS_ESPECIAIS = {
 
 CASA_FINAL = 15
 
-# Inicialização segura do Estado da Sessão
+# Inicialização segura das variáveis de estado do Streamlit
 if 'posicao' not in st.session_state:
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
@@ -75,12 +75,11 @@ if 'posicao' not in st.session_state:
     st.session_state.log_evento = ""
     st.session_state.quizzes_respondidos = 0
     st.session_state.quizzes_acertados = 0
-    st.session_state.game_over = False
     st.session_state.ultimo_personagem = "morfeu"
 
 st.title("🟢 Corrida pela Segurança Digital")
 
-# Estrutura principal com blocos perfeitamente alinhados e identados
+# TELA 1: LOGIN (Se não estiver jogando)
 if not st.session_state.jogando:
     col_char, col_text = st.columns(2)
     with col_char:
@@ -105,6 +104,7 @@ if not st.session_state.jogando:
             st.session_state.log_evento = "Acessando mainframe..."
             st.rerun()
 
+# TELA 2: GAME OVER (Se a integridade zerou)
 elif st.session_state.pontos <= 0:
     st.error(f"🚨 CONEXÃO INTERROMPIDA! Agente Smith baniu o Sr. {st.session_state.nome}!")
     if st.button("🔄 Hackear Novamente"):
