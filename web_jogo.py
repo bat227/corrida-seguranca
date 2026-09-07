@@ -15,10 +15,7 @@ st.markdown("""
         border: 1px solid #00ff00 !important;
         font-weight: bold;
         width: 100%;
-        text-align: left !important;
         padding: 12px !important;
-        white-space: normal !important;
-        word-wrap: break-word !important;
     }
     .stButton>button:hover { 
         background-color: #00ff00 !important; 
@@ -26,6 +23,7 @@ st.markdown("""
     }
     code { background-color: #1a1a1a !important; color: #00ff00 !important; }
     div[data-testid="stMetricValue"] { color: #00ff00 !important; }
+    .stRadio label { color: #ffffff !important; font-size: 16px; }
     div[data-testid="stMarkdownContainer"] p { color: #ffffff !important; }
     </style>
 """, unsafe_allow_html=True)
@@ -42,12 +40,12 @@ BANCO_PERGUNTAS = [
     {"pergunta": "O processo de Projeto da Arquitetura do Software define:", "opcoes": ["O plano de marketing para o lançamento.", "A estrutura interna, módulos, componentes e interfaces do sistema.", "O valor das licenças comerciais."], "correta": 1},
     {"pergunta": "O que é feito no processo de Implementação?", "opcoes": ["A tradução do design do software em linhas de código executável.", "A entrega do manual impresso para o cliente.", "A alteração de preços do contrato."], "correta": 0},
     {"pergunta": "O que define o processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
-    {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o produto mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
+    {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o product mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
     {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a especificação técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
     {"pergunta": "O Gerenciamento de Configuração serve para:", "opcoes": ["Controlar versões de arquivos (como o Git) e o histórico de modificações.", "Organizar as mesas físicas do escritório de desenvolvimento.", "Mudar o brilho da tela do software."], "correta": 0},
     {"pergunta": "A Gestão de Riscos está inserida em qual grupo da norma?", "opcoes": ["Processos de Acordo.", "Processos de Gerenciamento Técnico.", "Processos Técnicos."], "correta": 1},
     {"pergunta": "Qual processo cuida da desativação definitiva e aposentadoria de um software?", "opcoes": ["Processo de Operação.", "Processo de Descarte (Retirement).", "Processo de Manutenção."], "correta": 1},
-    {"pergunta": "A norma ISO 12207 proíbe expressamente o uso de frameworks ágeis como o Scrum?", "opcoes": ["Sim, ela obriga o uso do desenvolvimento Cascata.", "Não, ela é neutra e pode ser integrada tanto a métodos ágeisamp; tradicionais.", "Sim, ela não permite alterações diárias no escopo."], "correta": 1},
+    {"pergunta": "A norma ISO 12207 proíbe expressamente o uso de frameworks ágeis como o Scrum?", "opcoes": ["Sim, ela obriga o uso do desenvolvimento Cascata.", "Não, ela é neutra e pode ser integrada tanto a métodos ágeis quanto tradicionais.", "Sim, ela não permite alterações diárias no escopo."], "correta": 1},
     {"pergunta": "O processo de Operação cuida de qual etapa?", "opcoes": ["Do uso cotidiano do software em produção pelos usuários finais e suporte técnico.", "Do desenho inicial do banco de dados.", "Da assinatura das promessas de pagamento."], "correta": 0},
     {"pergunta": "Qual problema a falta de padronização gerava na engenharia antes de 1995?", "opcoes": ["Códigos sem fontes modernas.", "Prazos estourados, custos descontrolados e falhas graves de comunicação.", "A quebra física de mouses e teclados."], "correta": 1},
     {"pergunta": "Seguir a norma garante que um sistema saia 100% sem erros de código?", "opcoes": ["Sim, pois ela elimina falhas de lógica automaticamente.", "Não, nenhuma norma apaga 100% dos bugs, mas ela eleva drasticamente a qualidade.", "Sim, porque ela impede a digitação de códigos errados."], "correta": 1},
@@ -59,24 +57,25 @@ BANCO_PERGUNTAS = [
     {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Quando o cliente faz o último pagamento."], "correta": 0}
 ]
 
-# Função para resetar o jogo de forma limpa e segura
-def reiniciar_jogo():
+# Função para inicializar o jogo com segurança
+def iniciar_jogo():
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
     indices = list(range(len(BANCO_PERGUNTAS)))
     random.shuffle(indices)
     st.session_state.perguntas_disponiveis = indices
     st.session_state.pergunta_atual_idx = st.session_state.perguntas_disponiveis.pop(0)
-    st.session_state.feedback_msg = "Jogo Inicializado."
+    st.session_state.feedback_msg = "Acesse o quiz abaixo para iniciar!"
+    st.session_state.feedback_tipo = "info"
 
 if 'posicao' not in st.session_state:
-    reiniciar_jogo()
+    iniciar_jogo()
 
-# --- 1. CABEÇALHO ---
+# --- 1. CABEÇALHO PRINCIPAL ---
 st.title("🛡️ Corrida pela ISO 12207")
 
-if st.button("🔄 Hackear Novamente"):
-    reiniciar_jogo()
+if st.button("🔄 Hackear Novamente", key="btn_global_reset"):
+    iniciar_jogo()
     st.rerun()
 
 st.write("**Jogador:** Anônimo")
@@ -98,10 +97,8 @@ with col2:
     st.write("Funciona como um mapa completo que define todas as atividades do ciclo de vida de um sistema. Ela acompanha o software desde a concepção da primeira ideia, passando pelo desenvolvimento e uso diário, até a sua desativação definitiva.")
 
 st.subheader("⚠️ Precauções Importantes ao Utilizar:")
-st.write("A norma aponta o que fazer, mas deixa as equipes livres para escolher como fazer (quais ferramentas ou linguagens usar). O maior perigo ao adotá-la é gerar uma burocracia excessiva de relatórios e documentos que não trazem valor real ao produto. Por isso, use sempre o processo de adaptação (Tailoring) para ajustar o tamanho da norma ao tamanho real do seu projeto!")
+st.write("A norma aponta o que fazer, mas deixa as equipes livres para escolher como fazer (quais ferramentas ou linguagens usar). O maior perigo ao adotá-la é gerar uma burocracia excessiva de relatórios e documentos que não trazem valor real ao produto. Por isso, use sempre o processo de adaptação (Tailoring) para ajustar o tamanho della norma ao tamanho real do seu projeto!")
 
 st.markdown("---")
 
-# --- 3. EXIBIÇÃO DE FEEDBACK DE FORMA SEGURA ---
-st.info(st.session_state.feedback_msg)
-
+# --- 3. EXIBIÇÃO DE ALERTA DE ACERTO OU ERRO ---
