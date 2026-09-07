@@ -107,3 +107,4 @@ if st.session_state.posicao >= 15:
     st.balloons()
     st.success("🏆 EXCELENTE! Você dominou o ciclo de vida do software e venceu o jogo da ISO 12207!")
 elif st.session_state.pontos <= 0:
+
