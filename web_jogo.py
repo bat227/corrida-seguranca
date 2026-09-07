@@ -9,7 +9,7 @@ st.set_page_config(page_title="Corrida pela Segurança", page_icon="🛡️", la
 st.markdown("""
     <style>
     .stApp { background-color: #0c0c0c !important; }
-    h1, h2, h3, h4, h5, h6, p, span, label { color: #ffffff !important; }
+    h1, h2, h3, h4, h5, h6, p, span, label, div { color: #ffffff !important; }
     .stButton>button { 
         background-color: #002200 !important; 
         color: #00ff00 !important; 
@@ -22,96 +22,98 @@ st.markdown("""
     }
     code { background-color: #1a1a1a !important; color: #00ff00 !important; }
     div[data-testid="stMetricValue"] { color: #00ff00 !important; }
+    
+    /* Configurações extras para garantir contraste no modo Matrix */
+    .stRadio label { color: #ffffff !important; font-size: 16px; }
+    div[data-testid="stMarkdownContainer"] p { color: #ffffff !important; }
     </style>
 """, unsafe_allow_html=True)
 
-# Banco de dados ampliado com 25 perguntas sobre Segurança e LGPD
+# Banco de dados com perguntas sobre Segurança e LGPD
 LISTA_PERGUNTAS = [
     {"pergunta": "O tratamento de dados pessoais pode ocorrer para o cumprimento de obrigação legal?", "opcoes": ["Sim, é uma das bases legais válidas da LGPD.", "Não, precisa sempre de consentimento absoluto.", "Apenas se o titular for menor de idade."], "correta": 0},
     {"pergunta": "Se formulários de clientes forem descartados no lixo comum sem fragmentar, ocorre infração?", "opcoes": ["Não, desde que o lixo seja recolhido no mesmo dia.", "Sim, configura descarte inadequado e risco de vazamento.", "Não, pois papéis físicos não entram no escopo digital."], "correta": 1},
     {"pergunta": "Deixar o computador de trabalho desbloqueado ao ir almoçar viola qual pilar da Segurança?", "opcoes": ["Disponibilidade.", "Integridade.", "Confidencialidade."], "correta": 2},
     {"pergunta": "O que caracteriza um ataque de 'Phishing'?", "opcoes": ["Um vírus que bloqueia os arquivos do computador exigindo resgate.", "E-mails ou mensagens falsas que imitam instituições reais para roubar dados.", "Um acesso físico não autorizado ao servidor da empresa."], "correta": 1},
-    {"pergunta": "Qual das seguintes opções é considerada um 'Dado Pessoal Sensível' segundo a LGPD?", "opcoes": ["Número de telefone celular.", "Origem racial/étnica, convicção religiosa ou dados de saúde.", "Endereço comercial da empresa."], "correta": 1},
-    {"pergunta": "Qual é a função principal da ANPD?", "opcoes": ["Criar códigos de programação.", "Fiscalizar e aplicar sanções a quem descumprir a LGPD.", "Vender antivírus."], "correta": 1},
-    {"pergunta": "O que significa o pilar da 'Integridade' na Segurança?", "opcoes": ["Garantir disponibilidade contínua.", "Garantir que a informação não seja alterada sem autorização.", "Garantir sigilo absoluto."], "correta": 1},
-    {"pergunta": "Qual destas práticas ajuda a mitigar Engenharia Social?", "opcoes": ["Instalar apenas um firewall potente.", "Realizar treinamentos periódicos com os funcionários.", "Aumentar a velocidade dos servidores."], "correta": 1},
-    {"pergunta": "No contexto da LGPD, quem é o 'Controlador'?", "opcoes": ["Quem toma as decisões sobre o tratamento dos dados.", "O profissional de TI.", "O cliente."], "correta": 0},
-    {"pergunta": "O que é criptografia?", "opcoes": ["Apagar dados do servidor físico.", "Técnica de embaralhar dados para proteção.", "Uma senha simples compartilhada."], "correta": 1},
-    {"pergunta": "O que caracteriza um ataque de Ransomware?", "opcoes": ["Espionar a câmera do usuário sem que ele saiba.", "Sequestrar arquivos criptografando-os e exigir um resgate financeiro.", "Enviar anúncios repetitivos na tela do navegador."], "correta": 1},
-    {"pergunta": "Qual é o principal risco de usar redes Wi-Fi públicas sem VPN para trabalhar?", "opcoes": ["A bateria do notebook descarregar mais rápido.", "Intercepção de tráfego e roubo de dados por criminosos na mesma rede.", "O sinal cair devido ao excesso de usuários."], "correta": 1},
-    {"pergunta": "O que é a autenticação de dois fatores (2FA)?", "opcoes": ["Uma regra de criar duas senhas textuais parecidas.", "Uma camada extra de segurança que exige um código além da senha.", "Digitar a senha duas vezes seguidas para confirmar."], "correta": 1},
-    {"pergunta": "Compartilhar senhas de sistemas com colegas de equipe é aceitável se for urgente?", "opcoes": ["Sim, o trabalho em equipe justifica a agilidade.", "Não, as credenciais são de uso pessoal e intransferível.", "Sim, contanto que seja enviado por WhatsApp."], "correta": 1},
-    {"pergunta": "Quem é o Encarregado pelo Tratamento de Dados Pessoais (DPO) na LGPD?", "opcoes": ["O dono da empresa.", "O canal de comunicação entre a empresa, os titulares e a ANPD.", "O auditor fiscal do governo."], "correta": 1},
-    {"pergunta": "Qual pilar da segurança garante que os sistemas estejam accessibles quando necessários?", "opcoes": ["Disponibilidade.", "Confidencialidade.", "Autenticidade."], "correta": 0},
-    {"pergunta": "Qual é o prazo geral estipulado para comunicar incidentes de segurança relevantes à ANPD?", "opcoes": ["Prazo razoável, geralmente interpretado como até 2 dias úteis.", "Imediatamente em até 2 horas do ocorrido.", "30 dias corridos."], "correta": 0},
-    {"pergunta": "O que representa o princípio do 'Privacy by Design'?", "opcoes": ["Criar telas bonitas para políticas de privacidade.", "Pensar na proteção de dados desde a concepção de um projeto ou sistema.", "Contratar designers para auditar o banco de dados."], "correta": 1},
-    {"pergunta": "Qual a melhor postura ao receber um e-mail com anexo suspeito de um remetente desconhecido?", "opcoes": ["Abrir para verificar se é um vírus real.", "Ignorar ou reportar à equipe de segurança sem abrir o anexo.", "Encaminhar para toda a lista de contatos."], "correta": 1},
-    {"pergunta": "Anexar uma planilha com CPFs de clientes por engano em um e-mail externo viola a LGPD?", "opcoes": ["Não, se o destinatário prometer apagar o e-mail.", "Sim, configura um incidente de segurança e vazamento de dados.", "Não, pois o CPF é considerado um dado público."], "correta": 1},
-    {"pergunta": "Qual é a base legal correta para coletar dados médicos de um colaborador em um exame admissional?", "opcoes": ["Legítimo interesse do patrão.", "Cumprimento de obrigação legal ou regulatória pelo controlador.", "Consentimento livre e revogável."], "correta": 1},
-    {"pergunta": "O que descreve a Engenharia Social?", "opcoes": ["Manipulação psicológica de pessoas para que executem ações ou revelem segredos.", "Construção de infraestruturas físicas de TI.", "Programação de algoritmos de redes sociais."], "correta": 0},
-    {"pergunta": "Uma senha considerada forte deve conter quais características?", "opcoes": ["Apenas letras maiúsculas organizadas em ordem alfabética.", "Combinação de letras maiúsculas, minúsculas, números e caracteres especiais.", "O nome do usuário seguido do ano de nascimento."], "correta": 1},
-    {"pergunta": "Qual do papel do 'Operador' de dados segundo as regras da LGPD?", "opcoes": ["Realizar o tratamento de dados pessoais em nome e seguindo ordens do Controlador.", "Definir as finalidades da coleta dos dados.", "Fiscalizar as ações da ANPD."], "correta": 0},
-    {"pergunta": "Se um cliente solicitar a exclusão de seus dados da base da empresa, o que deve ser feito?", "opcoes": ["Apagar na hora, exceto se houver obrigação legal ou regulatória para mantê-los.", "Recusar a exclusão sob qualquer hipótese.", "Cobrar uma taxa de remoção de dados do cliente."], "correta": 0}
+    {"pergunta": "Qual das seguintes opções é considerada um 'Dado Pessoal Sensível' segundo a LGPD?", "opcoes": ["Número de telefone celular.", "Origem racial/étnica, convicção religiosa ou dados de saúde.", "Endereço comercial da empresa."], "correta": 1}
 ]
 
 CASAS_ESPECIAIS = {
-    3: {"msg": "⚠️ Alerta de Invasão! (Volte 2 casas)", "efeito": -2, "char": "smith"},
-    6: {"msg": "🛡️ Conexão Segura! (Avance 2 casas)", "efeito": 2, "char": "morfeu"},
-    9: {"msg": "🚨 Brecha detectada pela ANPD! (Volte 3 casas)", "efeito": -3, "char": "smith"},
-    12: {"msg": "💼 Protocolo correto de dados! (Avance 1 casa)", "efeito": 1, "char": "trinity"}
+    3: {"msg": "⚠️ Alerta de Invasão! (Volte 2 casas)", "efeito": -2},
+    6: {"msg": "🛡️ Conexão Segura! (Avance 2 casas)", "efeito": 2},
+    9: {"msg": "🚨 Brecha detectada pela ANPD! (Volte 3 casas)", "efeito": -3},
+    12: {"msg": "💼 Protocolo correto de dados! (Avance 1 casa)", "efeito": 1}
 }
 
 CASA_FINAL = 15
 
-# Inicialização segura das variáveis de estado do Streamlit
+# Inicialização das variáveis internas de estado do Streamlit
 if 'posicao' not in st.session_state:
     st.session_state.posicao = 0
 if 'pontos' not in st.session_state:
     st.session_state.pontos = 1000
 if 'nome' not in st.session_state:
-    st.session_state.nome = ""
+    st.session_state.nome = "Anônimo"
 if 'pergunta_atual' not in st.session_state:
     st.session_state.pergunta_atual = random.choice(LISTA_PERGUNTAS)
-if 'respondido' not in st.session_state:
-    st.session_state.respondido = False
 
+# 1. Cabeçalho Principal
 st.title("🛡️ Corrida pela Segurança")
 
-# Entrada para o nome do jogador
-nome_input = st.text_input("Insira seu Codinome Hacker:", value=st.session_state.nome)
-if nome_input != st.session_state.nome:
-    st.session_state.nome = nome_input
-
-# Botão de reinicialização (Corrigido)
+# 2. Botão de Reinicialização (Fomatado na ordem da sua imagem)
 if st.button("🔄 Hackear Novamente"):
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
     st.session_state.pergunta_atual = random.choice(LISTA_PERGUNTAS)
-    st.session_state.respondido = False
     st.rerun()
 
-st.write(f"**Jogador:** {st.session_state.nome if st.session_state.nome else 'Anônimo'}")
+# 3. Informações de Status do Jogador
+st.write(f"**Jogador:** {st.session_state.nome}")
 st.write(f"**Posição Atual:** Casa {st.session_state.posicao} / {CASA_FINAL}")
+
+# 4. Bloco de Pontuação Hacking
 st.metric(label="Pontuação Hacking", value=st.session_state.pontos)
 
-# --- CONTINUAÇÃO DA LÓGICA DO JOGO ---
-st.write("---")
+# Divisor visual para separar o cabeçalho estático das perguntas dinâmicas
+st.markdown("---")
 
+# 5. Fluxo de Execução do Quiz (Abaixo da pontuação)
 if st.session_state.posicao >= CASA_FINAL:
     st.balloons()
-    st.success(f"🏆 Parabéns, {st.session_state.nome if st.session_state.nome else 'Hacker'}! Você superou as brechas de segurança e venceu o jogo!")
+    st.success("🏆 Parabéns! Você superou todas as vulnerabilidades e invadiu o sistema com segurança!")
 else:
-    # Exibe a pergunta ativa
     p = st.session_state.pergunta_atual
-    st.subheader("💻 Desafio do Sistema:")
-    st.write(p["pergunta"])
     
-    # Seleção de resposta pelo usuário
-    resposta = st.radio("Escolha a alternativa correta:", p["opcoes"], key="radio_pergunta")
+    st.subheader("💻 Desafio de Segurança Detectado:")
+    st.markdown(f"**{p['pergunta']}**")
     
-    if st.button("Confirmar Resposta"):
-        indice_resposta = p["opcoes"].index(resposta)
+    # Campo de escolha múltipla
+    resposta_selecionada = st.radio("Selecione sua ação:", p["opcoes"], key="quiz_radio_options")
+    
+    if st.button("Confirmar Resposta 🔐"):
+        indice = p["opcoes"].index(resposta_selecionada)
         
-        if indice_resposta == p["correta"]:
-            st.success("✅ Resposta Correta! Rodando o dado de acesso...")
+        if indice == p["correta"]:
+            st.success("✅ Acesso Permitido! Resposta correta.")
             passos = random.randint(1, 3)
+            st.session_state.posicao += passos
+            st.session_state.pontos += 100
+            
+            # Validação de casas especiais do tabuleiro
+            if st.session_state.posicao in CASAS_ESPECIAIS:
+                evento = CASAS_ESPECIAIS[st.session_state.posicao]
+                st.warning(evento["msg"])
+                st.session_state.posicao += evento["efeito"]
+                
+            if st.session_state.posicao < 0:
+                st.session_state.posicao = 0
+        else:
+            st.error("❌ Resposta Incorreta! Integridade do sistema comprometida.")
+            st.session_state.pontos -= 150
+            if st.session_state.pontos < 0:
+                st.session_state.pontos = 0
+        
+        # Sorteia uma nova pergunta e atualiza a interface
+        st.session_state.pergunta_atual = random.choice(LISTA_PERGUNTAS)
+        time.sleep(1.5)
+        st.rerun()
