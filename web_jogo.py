@@ -112,7 +112,7 @@ else:
         if st.session_state.log_evento: st.text(st.session_state.log_evento)
 
         if not st.session_state.mostrar_quiz:
-            if st.button("🎲 Executar Algoritmo de Dado"):
+            if st.button("🎲 Jogue o Dado"):
                 dado = random.randint(1, 4)
                 st.session_state.posicao += dado
                 st.session_state.log_evento = f"Dado: +{dado} camadas. Destino: nível {st.session_state.posicao}."
