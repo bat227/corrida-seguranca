@@ -1,10 +1,8 @@
 import streamlit as st
 import random
 
-# Configuração da página web com estilo hacker Matrix
 st.set_page_config(page_title="ISO 12207: Corrida do Ciclo de Vida", page_icon="💾", layout="centered")
 
-# CSS personalizado para o tema escuro Matrix e botões visíveis
 st.markdown("""
     <style>
     .stApp { background-color: #0c0c0c !important; }
@@ -30,7 +28,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Banco de dados revisado com 25 perguntas sobre a ISO/IEC 12207
 BANCO_PERGUNTAS = [
     {"pergunta": "Por que a ISO 12207 foi inventada?", "opcoes": ["Para unificar as linguagens de programação mundiais.", "Para acabar com o caos e padronizar os processos do ciclo de vida do software.", "Para tabelar o preço de venda de sistemas."], "correta": 1},
     {"pergunta": "Para que serve a ISO 12207?", "opcoes": ["Como um guia que define o que fazer desde a concepção até o descarte do software.", "Para criar códigos de inteligência artificial de forma automática.", "Para monitorar o uso de Wi-Fi nas empresas."], "correta": 0},
@@ -43,7 +40,7 @@ BANCO_PERGUNTAS = [
     {"pergunta": "O que é feito no processo de Implementação?", "opcoes": ["A tradução do design do software em linhas de código executável.", "A entrega do manual impresso para o cliente.", "A alteração de preços do contrato."], "correta": 0},
     {"pergunta": "O que define o processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
     {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o produto mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
-    {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a specification técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
+    {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a especificação técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
     {"pergunta": "O Gerenciamento de Configuração serve para:", "opcoes": ["Controlar versões de arquivos (como o Git) e o histórico de modificações.", "Organizar as mesas físicas do escritório de desenvolvimento.", "Mudar o brilho da tela do software."], "correta": 0},
     {"pergunta": "A Gestão de Riscos está inserida em qual grupo da norma?", "opcoes": ["Processos de Acordo.", "Processos de Gerenciamento Técnico.", "Processos Técnicos."], "correta": 1},
     {"pergunta": "Qual processo cuida da desativação definitiva e aposentadoria de um software?", "opcoes": ["Processo de Operação.", "Processo de Descarte (Retirement).", "Processo de Manutenção."], "correta": 1},
@@ -59,7 +56,6 @@ BANCO_PERGUNTAS = [
     {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Quando o cliente faz o último pagamento."], "correta": 0}
 ]
 
-# Função para resetar o jogo de forma limpa e segura
 def reiniciar_jogo():
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
@@ -73,7 +69,6 @@ def reiniciar_jogo():
 if 'posicao' not in st.session_state:
     reiniciar_jogo()
 
-# --- 1. CABEÇALHO (EXATO FORMATO DO SEU PRINT) ---
 st.title("🛡️ Corrida pela ISO 12207")
 
 if st.button("🔄 Hackear Novamente"):
@@ -86,7 +81,6 @@ st.metric(label="Pontuação Hacking", value=st.session_state.pontos)
 
 st.markdown("---")
 
-# --- 2. INTRODUÇÃO E EXPLICAÇÕES (TOTALMENTE VISÍVEIS NA TELA) ---
 st.header("📖 Manual do Sistema: Entendendo a ISO/IEC 12207")
 
 col1, col2 = st.columns(2)
@@ -103,3 +97,13 @@ st.write("A norma aponta o que fazer, mas deixa as equipes livres para escolher 
 
 st.markdown("---")
 
+if st.session_state.feedback_msg:
+    if st.session_state.feedback_tipo == "sucesso":
+        st.success(st.session_state.feedback_msg)
+    else:
+        st.error(st.session_state.feedback_msg)
+
+if st.session_state.posicao >= 15:
+    st.balloons()
+    st.success("🏆 EXCELENTE! Você dominou o ciclo de vida do software e venceu o jogo da ISO 12207!")
+elif st.session_state.pontos <= 0:
