@@ -93,29 +93,22 @@ if 'posicao' not in st.session_state:
 st.title("🟢 Corrida pela Segurança Digital")
 
 # ========================================================
-# EXECUÇÃO DA INTERFACE DO JOGO
+# EXECUÇÃO DO FLUXO DO JOGO
 # ========================================================
 if not st.session_state.jogando:
-    col_char, col_text = st.columns()
+    col_char, col_text = st.columns(2)
     with col_char:
-        st.code("""
-  😎 MORFEU
-   [=======]
-
-   | O   O |
-   |   v   |
-   \\ ===== /
-        """, language="markdown")
+        st.code("  😎 MORFEU\n   [=======]\n   | O   O |\n   |   v   |\n   \\ ===== /", language="markdown")
     with col_text:
         st.write("### 🕶️ Morfeu diz:")
         st.info("'Esta é a sua última chance. Depois disso, não há retorno. Escolha a pílula vermelha, registre-se na Matrix da Segurança e veja até onde vai a toca do coelho...'")
     
     st.markdown("""
     ### 🧠 Por que utilizamos a ISO/IEC 12207?
-    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo e no mercado real se justifica por:
+    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo se justifica por:
     
     *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes).
-    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo funcional dentro do prazo da faculdade.
+    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo funcional dentro do prazo.
     *   **Manutenibilidade:** Separa os dados das perguntas da camada visual, permitindo correções rápidas sem quebrar o jogo.
     ---
     """)
@@ -137,20 +130,10 @@ if not st.session_state.jogando:
             st.warning("É preciso digitar um codinome para descriptografar o acesso.")
 
 else:
-    # SISTEMA DE GAME OVER 🚨
     if st.session_state.game_over or st.session_state.pontos <= 0:
-        col_char, col_text = st.columns()
+        col_char, col_text = st.columns(2)
         with col_char:
-            st.code("""
-  🕴️ AGENTE SMITH
-    _______
-   / _   _ \\
-
-  | (O) (O) |
-  |    |    |
-   \\  ___  /
-    \\_____/
-            """, language="markdown")
+            st.code("  🕴️ AGENTE SMITH\n    _______\n   / _   _ \\\n  | (O) (O) |\n  |    |    |\n   \\  ___  /\n    \\_____/", language="markdown")
         with col_text:
             st.error("🚨 CONEXÃO INTERROMPIDA PELOS AGENTES!")
             st.write("### 🕴️ Agente Smith diz:")
@@ -161,24 +144,14 @@ else:
             st.session_state.jogando = False
             st.rerun()
 
-    # SISTEMA DE VITÓRIA E NOTA FINAL 🏆
     elif st.session_state.posicao >= CASA_FINAL:
         tempo_total = round(time.time() - st.session_state.tempo_inicio, 2)
         st.balloons()
-        st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você concluiu a corrida em {tempo_total}s com {st.session_state.pontos} pontos!")
+        st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você cruzou o Mainframe em {tempo_total}s com {st.session_state.pontos} pontos!")
         
-        col_char, col_text = st.columns()
+        col_char, col_text = st.columns(2)
         with col_char:
-            st.code("""
-  😎 NEO (VOCÊ)
-    _______
-   /       \\
-
-  |  O   O  |
-  |    ^    |
-   \\  ===  /
-    \\_____/
-            """, language="markdown")
+            st.code("  😎 NEO (VOCÊ)\n    _______\n   /       \\\n  |  O   O  |\n  |    ^    |\n   \\  ===  /\n    \\_____/", language="markdown")
         with col_text:
             st.write("### ⚡ Oráculo emite o Relatório:")
             if st.session_state.quizzes_respondidos > 0:
@@ -186,3 +159,4 @@ else:
                     st.subheader("🌟 NOTA: 10/10 - VOCÊ É O ESCOLHIDO!")
                     st.markdown("Incrível! Você enxergou as linhas de código da LGPD e salvou a empresa sem cometer erros de privacidade.")
                 else:
+                    st.subheader(f"📊 NOTA: {st.session_state.quizzes_acertados} de {st.session_state.quizzes_respondidos} patches aplicados.")
