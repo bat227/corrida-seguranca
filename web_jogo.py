@@ -85,9 +85,23 @@ if 'posicao' not in st.session_state:
 st.title("🛡️ Corrida pela Segurança Digital")
 
 # ========================================================
-# TELA INICIAL DIRETA COM LOGIN
+# TELA DE INTRODUÇÃO E IMPORTÂNCIA DA ISO 12207
 # ========================================================
 if not st.session_state.jogando:
+    st.markdown("""
+    ### 📖 Introdução ao Projeto
+    Bem-vindo à **Corrida pela Segurança Digital**! Este software foi projetado e documentado como um estudo prático de **Engenharia de Software**, abordando a conscientização sobre a Lei Geral de Proteção de Dados (LGPD) e boas práticas de segurança cibernética.
+    
+    ### 🧠 Por que utilizamos a ISO/IEC 12207?
+    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo e no mercado real se justifica por:
+    
+    *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes), garantindo que o software não seja apenas uma 'gambiarra', mas um sistema robusto.
+    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), conseguimos cortar processos burocráticos pesados para entregar um protótipo perfeitamente funcional dentro do curto prazo da faculdade.
+    *   **Manutenibilidade:** A estrutura isola a camada de dados (nosso banco de perguntas) da camada visual, permitindo correções rápidas no sistema sem quebrar o jogo.
+    
+    ---
+    """)
+    
     nome_input = st.text_input("👤 Digite o nome do Jogador ou Grupo da Faculdade para iniciar:")
     if st.button("🚀 Iniciar Partida"):
         if nome_input:
