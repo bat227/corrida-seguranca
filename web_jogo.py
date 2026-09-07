@@ -43,7 +43,7 @@ BANCO_PERGUNTAS = [
     {"pergunta": "O que é feito no processo de Implementação?", "opcoes": ["A tradução do design do software em linhas de código executável.", "A entrega do manual impresso para o cliente.", "A alteração de preços do contrato."], "correta": 0},
     {"pergunta": "O que define o processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
     {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o produto mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
-    {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a especificação técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
+    {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a specification técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
     {"pergunta": "O Gerenciamento de Configuração serve para:", "opcoes": ["Controlar versões de arquivos (como o Git) e o histórico de modificações.", "Organizar as mesas físicas do escritório de desenvolvimento.", "Mudar o brilho da tela do software."], "correta": 0},
     {"pergunta": "A Gestão de Riscos está inserida em qual grupo da norma?", "opcoes": ["Processos de Acordo.", "Processos de Gerenciamento Técnico.", "Processos Técnicos."], "correta": 1},
     {"pergunta": "Qual processo cuida da desativação definitiva e aposentadoria de um software?", "opcoes": ["Processo de Operação.", "Processo de Descarte (Retirement).", "Processo de Manutenção."], "correta": 1},
@@ -92,22 +92,14 @@ st.header("📖 Manual do Sistema: Entendendo a ISO/IEC 12207")
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("💾 Por que foi inventada?")
-    st.write(
-        "Antigamente, as equipes construíam software de forma totalmente caótica. "
-        "Os prazos estouravam, os custos saíam do controle e a comunicação falhava. "
-        "A norma surgiu para estabelecer uma linguagem comum e organizar o mercado global."
-    )
+    st.write("Antigamente, as equipes construíam software de forma totalmente caótica. Os prazos estouravam, os custos saíam do controle e a comunicação falhava. A norma surgiu para estabelecer uma linguagem comum e organizar o mercado global.")
 
 with col2:
     st.subheader("⚙️ Para que ela serve?")
-    st.write(
-        "Funciona como um mapa completo que define todas as atividades do ciclo de vida "
-        "de um sistema. Ela acompanha o software desde a concepção da primeira ideia, "
-        "passando pelo desenvolvimento e uso diário, até a sua desativação definitiva."
-    )
+    st.write("Funciona como um mapa completo que define todas as atividades do ciclo de vida de um sistema. Ela acompanha o software desde a concepção da primeira ideia, passando pelo desenvolvimento e uso diário, até a sua desativação definitiva.")
 
 st.subheader("⚠️ Precauções Importantes ao Utilizar:")
-st.write(
-    "A norma aponta **o que fazer**, mas deixa as equipes livres para escolher **como fazer** "
-    "(quais ferramentas ou linguagens usar). O maior perigo ao adotá-la é gerar uma "
-    "burocracia excessiva de relatórios e documentos que não trazem valor real ao produto. "
+st.write("A norma aponta o que fazer, mas deixa as equipes livres para escolher como fazer (quais ferramentas ou linguagens usar). O maior perigo ao adotá-la é gerar uma burocracia excessiva de relatórios e documentos que não trazem valor real ao produto. Por isso, use sempre o processo de adaptação (Tailoring) para ajustar o tamanho da norma ao tamanho real do seu projeto!")
+
+st.markdown("---")
+
