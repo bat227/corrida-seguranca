@@ -48,7 +48,7 @@ if 'perguntas' not in st.session_state:
         {"pergunta": "O tratamento de dados pessoais pode ocorrer para o cumprimento de obrigação legal?", "opcoes": ["Sim, é uma das bases legais válidas da LGPD.", "Não, precisa sempre de consentimento absoluto.", "Apenas se o titular for menor de idade."], "correta": 0},
         {"pergunta": "Se formulários de clientes forem descartados no lixo comum sem fragmentar, ocorre infração?", "opcoes": ["Não, desde que o lixo seja recolhido no mesmo dia.", "Sim, configura descarte inadequado e risco de vazamento.", "Não, pois papéis físicos não entram no escopo digital."], "correta": 1},
         {"pergunta": "Deixar o computador de trabalho desbloqueado ao ir almoçar viola qual pilar da Segurança?", "opcoes": ["Disponibilidade.", "Integridade.", "Confidencialidade."], "correta": 2},
-        {"pergunta": "O que caracteriza um ataque de 'Phishing'?", "opcoes": ["Um vírus que bloqueia os arquivos do computador exigindo resgate.", "E-mails ou mensagens falsas que imitam instituições reais para roubar dados.", "Um acesso físico não autorizado ao servidor da empresa."], "correta": 1},
+        {"pergunta": "O que caracteriza um ataque de 'Phishing'?", "opcoes": ["Um vírus que bloqueia os arquivos do computador exigindo resgate.", "E-mails ou mensagens falsas que imitam institutions reais para roubar dados.", "Um acesso físico não autorizado ao servidor da empresa."], "correta": 1},
         {"pergunta": "Qual das seguintes opções é considerada um 'Dado Pessoal Sensível' segundo a LGPD?", "opcoes": ["Número de telefone celular.", "Origem racial/étnica, convicção religiosa ou dados de saúde.", "Endereço comercial da empresa."], "correta": 1},
         {"pergunta": "Qual é a função principal da ANPD (Autoridade Nacional de Proteção de Dados)?", "opcoes": ["Criar os códigos de programação dos sistemas do governo.", "Fiscalizar e aplicar sanções a empresas que descumprirem a LGPD.", "Vender softwares de antivírus corporativos."], "correta": 1},
         {"pergunta": "O que significa o pilar da 'Integridade' na Segurança da Informação?", "opcoes": ["Garantir que a informação esteja disponível sempre que necessário.", "Garantir que a informação não seja alterada ou corrompida por pessoas não autorizadas.", "Garantir que apenas pessoas autorizadas vejam a informação."], "correta": 1},
@@ -93,6 +93,20 @@ st.markdown(f'<audio src="{url_som_seguro}" controls loop style="width:100%; fil
 # TELA INICIAL DIRETA COM LOGIN
 # ========================================================
 if not st.session_state.jogando:
+    st.markdown("""
+    ### 📖 Introdução ao Projeto
+    Bem-vindo à **Corrida pela Segurança Digital**! Este software foi projetado e documentado como um estudo prático de **Engenharia de Software**, abordando a conscientização sobre a Lei Geral de Proteção de Dados (LGPD) e boas práticas de segurança cibernética.
+    
+    ### 🧠 Por que utilizamos a ISO/IEC 12207?
+    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo e no mercado real se justifica por:
+    
+    *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes), garantindo que o software não seja apenas uma 'gambiarra', mas um sistema robusto.
+    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), conseguimos cortar processos burocráticos pesados para entregar um protótipo perfeitamente funcional dentro do curto prazo da faculdade.
+    *   **Manutenibilidade:** A estrutura isola a camada de dados (nosso banco de perguntas) da camada visual, permitindo correções rápidas no sistema sem quebrar o jogo.
+    
+    ---
+    """)
+    
     nome_input = st.text_input("👤 Digite o nome do Hacker ou Grupo para iniciar:")
     if st.button("🚀 Iniciar Infiltração"):
         if nome_input:
@@ -142,31 +156,3 @@ else:
             st.markdown("Você ignorou as sub-rotinas e venceu apenas contando com a sorte dos algoritmos de movimento.")
 
         st.write("### 📊 Ranking Global de Infiltração")
-        st.write("1º Lugar: Grupo_Cyber_Sec - 1400 pts (35.4s)")
-        st.write(f"2º Lugar: **{st.session_state.nome}** - {st.session_state.pontos} pts ({tempo_total}s) 👈")
-        st.write("3º Lugar: Alunos_Engenharia - 850 pts (48.1s)")
-        
-        if st.button("🔄 Nova Infiltração"):
-            st.session_state.posicao = 0
-            st.session_state.pontos = 1000
-            st.session_state.jogando = False
-            st.rerun()
-
-    # Fluxo Normal da Corrida
-    else:
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Hacker", st.session_state.nome)
-        col2.metric("Mainframe Sec", f"Nível {st.session_state.posicao}/{CASA_FINAL}")
-        col3.metric("Integridade", f"{st.session_state.pontos} pts")
-
-        # Tabuleiro Estilizado Matrix
-        trilha = [". "] * (CASA_FINAL + 1)
-        if st.session_state.posicao <= CASA_FINAL:
-            trilha[st.session_state.posicao] = "🟢 "
-        st.code("Root_ | " + "".join(trilha) + " | _Admin", language="markdown")
-
-        if st.session_state.log_evento:
-            st.info(st.session_state.log_evento)
-
-        # Mecânica Síncrona: Dado + Pergunta Obrigatória
-        if not st.session_state.mostrar_quiz:
