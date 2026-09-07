@@ -5,7 +5,7 @@ import time
 # Configuração da página web com tema hacker Matrix otimizado
 st.set_page_config(page_title="Corrida pela Segurança", page_icon="🛡️", layout="centered")
 
-# CSS Corrigido para evitar que o conteúdo suma na tela preta
+# CSS Corrigido para evitar conflitos visuais e sumiço de textos
 st.markdown("""
     <style>
     .stApp { background-color: #0c0c0c !important; }
@@ -44,7 +44,7 @@ LISTA_PERGUNTAS = [
     {"pergunta": "Quem é o Encarregado pelo Tratamento de Dados Pessoais (DPO) na LGPD?", "opcoes": ["O dono da empresa.", "O canal de comunicação entre a empresa, os titulares e a ANPD.", "O auditor fiscal do governo."], "correta": 1},
     {"pergunta": "Qual pilar da segurança garante que os sistemas estejam acessíveis quando necessários?", "opcoes": ["Disponibilidade.", "Confidencialidade.", "Autenticidade."], "correta": 0},
     {"pergunta": "Qual é o prazo geral estipulado para comunicar incidentes de segurança relevantes à ANPD?", "opcoes": ["Prazo razoável, geralmente interpretado como até 2 dias úteis.", "Imediatamente em até 2 horas do ocorrido.", "30 dias corridos."], "correta": 0},
-    {"pergunta": "O que representa o princípio do 'Privacy by Design'?", "opcoes": ["Criar telas bonitas para políticas de privacidade.", "Pensar na proteção de dados desde a concepção de um projeto ou systema.", "Contratar designers para auditar o banco de dados."], "correta": 1},
+    {"pergunta": "O que representa o princípio do 'Privacy by Design'?", "opcoes": ["Criar telas bonitas para políticas de privacidade.", "Pensar na proteção de dados desde a concepção de um projeto ou sistema.", "Contratar designers para auditar o banco de dados."], "correta": 1},
     {"pergunta": "Qual a melhor postura ao receber um e-mail com anexo suspeito de um remetente desconhecido?", "opcoes": ["Abrir para verificar se é um vírus real.", "Ignorar ou reportar à equipe de segurança sem abrir o anexo.", "Encaminhar para toda a lista de contatos."], "correta": 1},
     {"pergunta": "Anexar uma planilha com CPFs de clientes por engano em um e-mail externo viola a LGPD?", "opcoes": ["Não, se o destinatário prometer apagar o e-mail.", "Sim, configura um incidente de segurança e vazamento de dados.", "Não, pois o CPF é considerado um dado público."], "correta": 1},
     {"pergunta": "Qual é a base legal correta para coletar dados médicos de um colaborador em um exame admissional?", "opcoes": ["Legítimo interesse do patrão.", "Cumprimento de obrigação legal ou regulatória pelo controlador.", "Consentimento livre e revogável."], "correta": 1},
@@ -63,6 +63,7 @@ CASAS_ESPECIAIS = {
 
 CASA_FINAL = 15
 
+# Inicialização segura do Estado da Sessão
 if 'posicao' not in st.session_state:
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
@@ -79,6 +80,7 @@ if 'posicao' not in st.session_state:
 
 st.title("🟢 Corrida pela Segurança Digital")
 
+# Estrutura principal com blocos perfeitamente alinhados e identados
 if not st.session_state.jogando:
     col_char, col_text = st.columns(2)
     with col_char:
@@ -102,11 +104,7 @@ if not st.session_state.jogando:
             st.session_state.jogando = True
             st.session_state.log_evento = "Acessando mainframe..."
             st.rerun()
-else:
-    if st.session_state.pontos <= 0:
-        st.error(f"🚨 CONEXÃO INTERROMPIDA! Agente Smith baniu o Sr. {st.session_state.nome}!")
-        if st.button("🔄 Hackear Novamente"):
-            st.session_state.jogando = False
-            st.rerun()
 
-    elif st.session_state.posicao >= CASA_FINAL:
+elif st.session_state.pontos <= 0:
+    st.error(f"🚨 CONEXÃO INTERROMPIDA! Agente Smith baniu o Sr. {st.session_state.nome}!")
+    if st.button("🔄 Hackear Novamente"):
