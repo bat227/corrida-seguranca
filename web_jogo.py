@@ -83,7 +83,6 @@ if 'posicao' not in st.session_state:
     st.session_state.log_evento = ""
 
 st.title("🛡️ Corrida pela Segurança Digital")
-st.subheader("Trabalho Acadêmico de Engenharia de Software")
 
 # ========================================================
 # TELA DE INTRODUÇÃO E IMPORTÂNCIA DA ISO 12207
@@ -163,20 +162,20 @@ else:
                 st.session_state.quiz_atual = random.choice(st.session_state.perguntas)
                 
             st.rerun()
-    else:
-        st.write("---")
-        st.write(f"⚡ **[DESAFIO FLIPPITY]** {st.session_state.quiz_atual['pergunta']}")
-        resposta = st.radio("Escolha uma alternativa:", st.session_state.quiz_atual['opcoes'])
-        
-        if st.button("Confirmar Resposta"):
-            idx_resposta = st.session_state.quiz_atual['opcoes'].index(resposta)
-            if idx_resposta == st.session_state.quiz_atual['correta']:
-                st.session_state.pontos += 200
-                st.session_state.posicao += 1
-                st.session_state.log_evento = "🎉 Resposta CORRETA! Você ganhou +200 pontos e +1 casa bônus!"
-            else:
-                st.session_state.pontos -= 150
-                st.session_state.log_evento = f"❌ Resposta INCORRETA! O sistema removeu 150 pontos."
-                
-            st.session_state.mostrar_quiz = False
-            st.rerun()
+else:
+    st.write("---")
+    st.write(f"⚡ **[DESAFIO FLIPPITY]** {st.session_state.quiz_atual['pergunta']}")
+    resposta = st.radio("Escolha uma alternativa:", st.session_state.quiz_atual['opcoes'])
+    
+    if st.button("Confirmar Resposta"):
+        idx_resposta = st.session_state.quiz_atual['opcoes'].index(resposta)
+        if idx_resposta == st.session_state.quiz_atual['correta']:
+            st.session_state.pontos += 200
+            st.session_state.posicao += 1
+            st.session_state.log_evento = "🎉 Resposta CORRETA! Você ganhou +200 pontos e +1 casa bônus!"
+        else:
+            st.session_state.pontos -= 150
+            st.session_state.log_evento = f"❌ Resposta INCORRETA! O sistema removeu 150 pontos."
+            
+        st.session_state.mostrar_quiz = False
+        st.rerun()
