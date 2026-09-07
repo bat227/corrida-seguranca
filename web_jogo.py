@@ -5,13 +5,22 @@ import time
 # Configuração da página web com tema hacker Matrix otimizado
 st.set_page_config(page_title="Corrida pela Segurança", page_icon="🛡️", layout="centered")
 
+# CSS Corrigido para evitar que o conteúdo suma na tela preta
 st.markdown("""
     <style>
-    .stApp { background-color: #000000 !important; color: #ffffff !important; }
-    h1, h2, h3, h4, h5, h6, p, label, .stMarkdown { color: #ffffff !important; }
-    .stButton>button { background-color: #003300 !important; color: #00ff00 !important; border: 1px solid #00ff00 !important; }
-    .stButton>button:hover { background-color: #00ff00 !important; color: #000000 !important; }
-    code { background-color: #111111 !important; color: #00ff00 !important; }
+    .stApp { background-color: #0c0c0c !important; }
+    h1, h2, h3, h4, h5, h6, p, span, label { color: #ffffff !important; }
+    .stButton>button { 
+        background-color: #002200 !important; 
+        color: #00ff00 !important; 
+        border: 1px solid #00ff00 !important;
+        font-weight: bold;
+    }
+    .stButton>button:hover { 
+        background-color: #00ff00 !important; 
+        color: #000000 !important; 
+    }
+    code { background-color: #1a1a1a !important; color: #00ff00 !important; }
     div[data-testid="stMetricValue"] { color: #00ff00 !important; }
     </style>
 """, unsafe_allow_html=True)
@@ -101,4 +110,3 @@ else:
             st.rerun()
 
     elif st.session_state.posicao >= CASA_FINAL:
-        tempo_total = round(time.time() - st.session_state.tempo_inicio, 2)
