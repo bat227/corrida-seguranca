@@ -128,6 +128,8 @@ else:
         st.error("🚨 CONEXÃO INTERROMPIDA! Suas falhas de segurança causaram um colapso no sistema!")
         st.markdown("O mainframe da sua organização foi exposto. Backup de dados corrompido.")
         if st.button("🔄 Reiniciar Terminal"):
+            st.session_state.posicao = 0
+            st.session_state.pontos = 1000
             st.session_state.jogando = False
             st.rerun()
 
@@ -152,8 +154,5 @@ else:
             st.markdown("Você ignorou as sub-rotinas e venceu apenas contando com a sorte dos algoritmos de movimento.")
 
         st.write("### 📊 Ranking Global de Infiltração")
-        st.write("1º Lugar: Neo_CyberSec - 1400 pts (35.4s)")
+        st.write("1º Lugar: Grupo_Cyber_Sec - 1400 pts (35.4s)")
         st.write(f"2º Lugar: **{st.session_state.nome}** - {st.session_state.pontos} pts ({tempo_total}s) 👈")
-        st.write("3º Lugar: Trinity_TI - 850 pts (48.1s)")
-        
-        if st.button("🔄 Nova Infiltração"):
