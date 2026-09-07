@@ -36,9 +36,7 @@ CASAS_ESPECIAIS = {
 
 CASA_FINAL = 15
 
-# ==========================================
-# GERENCIAMENTO DE ESTADO DO JOGO (INTERACTY)
-# ==========================================
+# GERENCIAMENTO DE ESTADO
 if 'posicao' not in st.session_state:
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
@@ -50,11 +48,27 @@ if 'posicao' not in st.session_state:
     st.session_state.log_evento = ""
 
 st.title("🛡️ Corrida pela Segurança Digital")
-st.subheader("Ecossistema Integrado de Engenharia de Software (ISO 12207)")
+st.subheader("Trabalho Acadêmico de Engenharia de Software")
 
-# Tela Inicial: Registro do Jogador
+# ========================================================
+# TELA DE INTRODUÇÃO E IMPORTÂNCIA DA ISO 12207
+# ========================================================
 if not st.session_state.jogando:
-    nome_input = st.text_input("👤 Digite o nome do Jogador ou Grupo da Faculdade:")
+    st.markdown("""
+    ### 📖 Introdução ao Projeto
+    Bem-vindo à **Corrida pela Segurança Digital**! Este software foi projetado e documentado como um estudo prático de **Engenharia de Software**, abordando a conscientização sobre a Lei Geral de Proteção de Dados (LGPD) e boas práticas de segurança cibernética.
+    
+    ### 🧠 Por que utilizamos a ISO/IEC 12207?
+    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo e no mercado real se justifica por:
+    
+    *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes), garantindo que o software não seja apenas uma 'gambiarra', mas um sistema robusto.
+    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), conseguimos cortar processos burocráticos pesados para entregar um protótipo perfeitamente funcional dentro do curto prazo da faculdade.
+    *   **Manutenibilidade:** A estrutura isola a camada de dados (nosso banco de perguntas) da camada visual, permitindo correções rápidas no sistema sem quebrar o jogo.
+    
+    ---
+    """)
+    
+    nome_input = st.text_input("👤 Digite o nome do Jogador ou Grupo da Faculdade para iniciar:")
     if st.button("🚀 Iniciar Partida"):
         if nome_input:
             st.session_state.nome = nome_input
@@ -62,20 +76,18 @@ if not st.session_state.jogando:
             st.session_state.pontos = 1000
             st.session_state.tempo_inicio = time.time()
             st.session_state.jogando = True
-            st.session_state.log_evento = "Partida iniciada! Avance até a casa final."
+            st.session_state.log_evento = "Partida iniciada! Avance até a casa final respondendo aos desafios."
             st.rerun()
         else:
             st.warning("Por favor, digite um nome para começar.")
 
 # Tela de Jogo Ativo
 else:
-    # Painel de Status (Interacty Leaderboard)
     col1, col2, col3 = st.columns(3)
     col1.metric("Jogador", st.session_state.nome)
     col2.metric("Posição Atual", f"Casa {st.session_state.posicao}/{CASA_FINAL}")
     col3.metric("Pontuação", f"{st.session_state.pontos} pts")
 
-    # Desenho Visual do Tabuleiro (Genially Frontend)
     trilha = ["_ "] * (CASA_FINAL + 1)
     if st.session_state.posicao <= CASA_FINAL:
         trilha[st.session_state.posicao] = "🤖 "
@@ -84,7 +96,6 @@ else:
     if st.session_state.log_evento:
         st.info(st.session_state.log_evento)
 
-    # Condição de Vitória
     if st.session_state.posicao >= CASA_FINAL:
         tempo_total = round(time.time() - st.session_state.tempo_inicio, 2)
         st.balloons()
@@ -99,14 +110,12 @@ else:
             st.session_state.jogando = False
             st.rerun()
 
-    # Mecânicas de Turno
     elif not st.session_state.mostrar_quiz:
         if st.button("🎲 Girar o Dado"):
             dado = random.randint(1, 4)
             st.session_state.posicao += dado
             st.session_state.log_evento = f"O dado rolou número {dado}! Você avançou para a casa {st.session_state.posicao}."
             
-            # Verifica Casa Especial (Genially)
             if st.session_state.posicao in CASAS_ESPECIAIS:
                 ev = CASAS_ESPECIAIS[st.session_state.posicao]
                 st.session_state.posicao += ev["efeito"]
@@ -114,28 +123,25 @@ else:
                 st.session_state.log_evento += f"\n{ev['msg']}"
                 if st.session_state.posicao < 0: st.session_state.posicao = 0
             
-            # Sorteia Desafio Relâmpago (Flippity)
             elif random.choice([True, False]) and st.session_state.posicao < CASA_FINAL:
                 st.session_state.mostrar_quiz = True
                 st.session_state.quiz_atual = random.choice(st.session_state.perguntas)
                 
             st.rerun()
-
-    # Tela do Desafio Acadêmico (Flippity/Kahoot)
-    else:
-        st.write("---")
-        st.write(f"⚡ **[DESAFIO FLIPPITY]** {st.session_state.quiz_atual['pergunta']}")
-        resposta = st.radio("Escolha uma alternativa:", st.session_state.quiz_atual['opcoes'])
-        
-        if st.button("Confirmar Resposta"):
-            idx_resposta = st.session_state.quiz_atual['opcoes'].index(resposta)
-            if idx_resposta == st.session_state.quiz_atual['correta']:
-                st.session_state.pontos += 200
-                st.session_state.posicao += 1
-                st.session_state.log_evento = "🎉 Resposta CORRETA! Você ganhou +200 pontos e +1 casa bônus!"
-            else:
-                st.session_state.pontos -= 150
-                st.session_state.log_evento = f"❌ Resposta INCORRETA! O sistema removeu 150 pontos."
-                
-            st.session_state.mostrar_quiz = False
-            st.rerun()
+else:
+    st.write("---")
+    st.write(f"⚡ **[DESAFIO FLIPPITY]** {st.session_state.quiz_atual['pergunta']}")
+    resposta = st.radio("Escolha uma alternativa:", st.session_state.quiz_atual['opcoes'])
+    
+    if st.button("Confirmar Resposta"):
+        idx_resposta = st.session_state.quiz_atual['opcoes'].index(resposta)
+        if idx_resposta == st.session_state.quiz_atual['correta']:
+            st.session_state.pontos += 200
+            st.session_state.posicao += 1
+            st.session_state.log_evento = "🎉 Resposta CORRETA! Você ganhou +200 pontos e +1 casa bônus!"
+        else:
+            st.session_state.pontos -= 150
+            st.session_state.log_evento = f"❌ Resposta INCORRETA! O sistema removeu 150 pontos."
+            
+        st.session_state.mostrar_quiz = False
+        st.rerun()
