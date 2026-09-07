@@ -38,7 +38,7 @@ BANCO_PERGUNTAS = [
     {"pergunta": "Qual a função do processo de Análise de Requisitos?", "opcoes": ["Escrever as linhas de código do sistema.", "Descobrir, detalhar e documentar o que o software precisa fazer.", "Apagar as bases de dados antigas."], "correta": 1},
     {"pergunta": "O processo de Projeto da Arquitetura do Software define:", "opcoes": ["O plano de marketing para o lançamento.", "A estrutura interna, módulos, componentes e interfaces do sistema.", "O valor das licenças comerciais."], "correta": 1},
     {"pergunta": "O que é feito no processo de Implementação?", "opcoes": ["A tradução do design do software em linhas de código executável.", "A entrega do manual impresso para o cliente.", "A alteração de preços do contrato."], "correta": 0},
-    {"pergunta": "O que define the processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
+    {"pergunta": "O que define o processo de Manutenção?", "opcoes": ["O ato de formatar os computadores da empresa.", "Modificações feitas no software após a entrega para corrigir erros ou atualizar funções.", "A desativação permanente do sistema."], "correta": 1},
     {"pergunta": "O que significa o termo 'Tailoring' na ISO 12207?", "opcoes": ["Eliminar a fase de engenharia para entregar o produto mais rápido.", "Adaptar a norma selecionando apenas os processos adequados ao seu projeto.", "Mudar os ícones visuais do sistema."], "correta": 1},
     {"pergunta": "Qual a diferença conceitual entre Verificação e Validação?", "opcoes": ["Verificação checa se o código cumpre a especificação técnica; Validação checa se atende ao usuário.", "São exatamente a mesma atividade técnica.", "Verificação é o teste em nuvem e Validação é o teste local."], "correta": 0},
     {"pergunta": "O Gerenciamento de Configuração serve para:", "opcoes": ["Controlar versões de arquivos (como o Git) e o histórico de modificações.", "Organizar as mesas físicas do escritório de desenvolvimento.", "Mudar o brilho da tela do software."], "correta": 0},
@@ -53,7 +53,7 @@ BANCO_PERGUNTAS = [
     {"pergunta": "O processo de Garantia da Qualidade do Software serve para:", "opcoes": ["Garantir de forma independente que os processos e produtos estão seguindo os planos estipulados.", "Aumentar a velocidade dos downloads.", "Escrever relatórios de vendas para os diretores."], "correta": 0},
     {"pergunta": "O que avalia o processo de Auditoria?", "opcoes": ["A conformidade do produto em relação a contratos e requisitos técnicos definidos.", "O horário de entrada e saída dos funcionários.", "O layout do site do cliente."], "correta": 0},
     {"pergunta": "Qual processo foca no monitoramento do progresso em relação aos planos técnicos e prazos?", "opcoes": ["Processo de Avaliação e Controle Técnico.", "Processo de Descarte.", "Processo de Suprimento."], "correta": 0},
-    {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Quando o cliente faz o último pagamento."], "correta": 0}
+    {"pergunta": "Quando o ciclo de vida de um software termina oficialmente segundo a norma?", "opcoes": ["Quando o processo de descarte é totalmente concluído e o sistema é tirado do ar de forma segura.", "No dia do lançamento da versão 1.0.", "Qual o cliente faz o último pagamento."], "correta": 0}
 ]
 
 # Função auxiliar para redefinir o estado inicial
@@ -106,7 +106,7 @@ if st.session_state.feedback_msg:
     else:
         st.error(st.session_state.feedback_msg)
 
-# --- EXECUÇÃO LOGICIAL DO TABULEIRO ---
+# --- EXECUÇÃO LOGICIAL DO TABULEIRO (ALINHAMENTO CORRIGIDO) ---
 if st.session_state.posicao >= 15:
     st.balloons()
     st.success("🏆 EXCELENTE! Você dominou o ciclo de vida do software e completou o tabuleiro da ISO 12207!")
