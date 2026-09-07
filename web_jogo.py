@@ -38,12 +38,12 @@ LISTA_PERGUNTAS = [
     {"pergunta": "No contexto da LGPD, quem é o 'Controlador'?", "opcoes": ["Quem toma as decisões sobre o tratamento dos dados.", "O profissional de TI.", "O cliente."], "correta": 0},
     {"pergunta": "O que é criptografia?", "opcoes": ["Apagar dados do servidor físico.", "Técnica de embaralhar dados para proteção.", "Uma senha simples compartilhada."], "correta": 1},
     {"pergunta": "O que caracteriza um ataque de Ransomware?", "opcoes": ["Espionar a câmera do usuário sem que ele saiba.", "Sequestrar arquivos criptografando-os e exigir um resgate financeiro.", "Enviar anúncios repetitivos na tela do navegador."], "correta": 1},
-    {"pergunta": "Qual é o principal risco de usar redes Wi-Fi públicas sem VPN para trabalhar?", "opcoes": ["A bateria do notebook descarregar mais rápido.", "Intercepção de tráfego e roubo de dados por criminosos na mesma rede.", "O sinal cair devido ao excesso de usuários."], "correta": 1},
+    {"pergunta": "Qual é o principal risco de usar redes Wi-Fi públicas sem VPN para trabalhar?", "opcoes": ["A bateria do notebook descarregar mais rápido.", "Intercepção de tráfego e roubo de dados por criminosos na mesma rede.", "O sinal cair devido ao excesso Tobacco."], "correta": 1},
     {"pergunta": "O que é a autenticação de dois fatores (2FA)?", "opcoes": ["Uma regra de criar duas senhas textuais parecidas.", "Uma camada extra de segurança que exige um código além da senha.", "Digitar a senha duas vezes seguidas para confirmar."], "correta": 1},
     {"pergunta": "Compartilhar senhas de sistemas com colegas de equipe é aceitável se for urgente?", "opcoes": ["Sim, o trabalho em equipe justifica a agilidade.", "Não, as credenciais são de uso pessoal e intransferível.", "Sim, contanto que seja enviado por WhatsApp."], "correta": 1},
     {"pergunta": "Quem é o Encarregado pelo Tratamento de Dados Pessoais (DPO) na LGPD?", "opcoes": ["O dono da empresa.", "O canal de comunicação entre a empresa, os titulares e a ANPD.", "O auditor fiscal do governo."], "correta": 1},
     {"pergunta": "Qual pilar da segurança garante que os sistemas estejam acessíveis quando necessários?", "opcoes": ["Disponibilidade.", "Confidencialidade.", "Autenticidade."], "correta": 0},
-    {"pergunta": "Qual é o prazo geral estipulado para comunicar incidentes de segurança relevantes à ANPD?", "opcoes": ["Prazo razoável, geralmente interpretado como até 2 dias úteis.", "Imediatamente em até 2 horas do ocorrido.", "30 dias corridos."], "correta": 0},
+    {"pergunta": "Qual é o prazo geral estipulado para comunicar incidentes de segurança relevantes à ANPD?", "opcoes": ["Prazo razoável, geralmente interpretado como até 2 dias úteis.", "Imediatamente em até 2 hours do ocorrido.", "30 dias corridos."], "correta": 0},
     {"pergunta": "O que representa o princípio do 'Privacy by Design'?", "opcoes": ["Criar telas bonitas para políticas de privacidade.", "Pensar na proteção de dados desde a concepção de um projeto ou sistema.", "Contratar designers para auditar o banco de dados."], "correta": 1},
     {"pergunta": "Qual a melhor postura ao receber um e-mail com anexo suspeito de um remetente desconhecido?", "opcoes": ["Abrir para verificar se é um vírus real.", "Ignorar ou reportar à equipe de segurança sem abrir o anexo.", "Encaminhar para toda a lista de contatos."], "correta": 1},
     {"pergunta": "Anexar uma planilha com CPFs de clientes por engano em um e-mail externo viola a LGPD?", "opcoes": ["Não, se o destinatário prometer apagar o e-mail.", "Sim, configura um incidente de segurança e vazamento de dados.", "Não, pois o CPF é considerado um dado público."], "correta": 1},
@@ -66,45 +66,28 @@ CASA_FINAL = 15
 # Inicialização segura das variáveis de estado do Streamlit
 if 'posicao' not in st.session_state:
     st.session_state.posicao = 0
+if 'pontos' not in st.session_state:
     st.session_state.pontos = 1000
+if 'nome' not in st.session_state:
     st.session_state.nome = ""
+if 'jogando' not in st.session_state:
     st.session_state.jogando = False
-    st.session_state.tempo_inicio = 0.0
-    st.session_state.mostrar_quiz = False
-    st.session_state.quiz_atual = None
-    st.session_state.log_evento = ""
-    st.session_state.quizzes_respondidos = 0
-    st.session_state.quizzes_acertados = 0
-    st.session_state.ultimo_personagem = "morfeu"
+if 'tempo_inicio' not in st.session_state:
+    st.session_state.tempo_inicio = time.time()
 
-st.title("🟢 Corrida pela Segurança Digital")
+# --- CORREÇÃO DA LINHA 110 EM DIANTE ---
+# Criando a interface e o botão de reinicialização do jogo
+st.title("🛡️ Corrida pela Segurança")
 
-# TELA 1: LOGIN (Se não estiver jogando)
-if not st.session_state.jogando:
-    col_char, col_text = st.columns(2)
-    with col_char:
-        st.code("  😎 MORFEU\n   [=======]\n   | O   O |\n   |   v   |\n   \\ ===== /", language="markdown")
-    with col_text:
-        st.write("### 🕶️ Morfeu diz:")
-        st.write("*'Esta é a sua última chance. Escolha a pílula vermelha, registre-se na Matrix da Segurança e veja até onde vai a toca do coelho...'*")
-    
-    with st.expander("🧠 Documentação de Engenharia de Software (ISO 12207)"):
-        st.markdown("* **Qualidade:** Divisão estruturada. \n* **Mitigação:** Uso de *Tailoring*.\n* **Manutenibilidade:** Dados isolados.")
-    
-    nome_input = st.text_input("👤 Codinome Hacker:")
-    if st.button("🚀 Tomar a Pílula Vermelha"):
-        if nome_input:
-            st.session_state.nome = nome_input
-            st.session_state.posicao = 0
-            st.session_state.pontos = 1000
-            st.session_state.quizzes_respondidos = 0
-            st.session_state.quizzes_acertados = 0
-            st.session_state.tempo_inicio = time.time()
-            st.session_state.jogando = True
-            st.session_state.log_evento = "Acessando mainframe..."
-            st.rerun()
+# O botão abaixo foi devidamente indentado e configurado para resetar o jogo
+if st.button("🔄 Hackear Novamente"):
+    st.session_state.posicao = 0
+    st.session_state.pontos = 1000
+    st.session_state.jogando = True
+    st.session_state.tempo_inicio = time.time()
+    st.rerun()
 
-# TELA 2: GAME OVER (Se a integridade zerou)
-elif st.session_state.pontos <= 0:
-    st.error(f"🚨 CONEXÃO INTERROMPIDA! Agente Smith baniu o Sr. {st.session_state.nome}!")
-    if st.button("🔄 Hackear Novamente"):
+# Exibe o status atual do jogador na tela
+st.write(f"**Jogador:** {st.session_state.nome if st.session_state.nome else 'Anônimo'}")
+st.write(f"**Posição Atual:** Casa {st.session_state.posicao} / {CASA_FINAL}")
+st.metric(label="Pontuação Hacking", value=st.session_state.pontos)
