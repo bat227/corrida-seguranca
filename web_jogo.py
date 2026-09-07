@@ -112,7 +112,7 @@ if not st.session_state.jogando:
     
     st.markdown("""
     ### 🧠 Por que utilizamos a ISO/IEC 12207?
-    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo se justifica por:
+    A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo e no mercado real se justifica por:
     
     *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes).
     *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo funcional dentro do prazo da faculdade.
@@ -165,7 +165,7 @@ else:
     elif st.session_state.posicao >= CASA_FINAL:
         tempo_total = round(time.time() - st.session_state.tempo_inicio, 2)
         st.balloons()
-        st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você cruzou o Mainframe em {tempo_total}s com {st.session_state.pontos} pontos!")
+        st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você concluiu a corrida em {tempo_total}s com {st.session_state.pontos} pontos!")
         
         col_char, col_text = st.columns()
         with col_char:
