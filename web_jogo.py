@@ -67,8 +67,7 @@ def reiniciar_jogo():
     random.shuffle(indices)
     st.session_state.perguntas_disponiveis = indices
     st.session_state.pergunta_atual_idx = st.session_state.perguntas_disponiveis.pop(0)
-    st.session_state.feedback_msg = ""
-    st.session_state.feedback_tipo = ""
+    st.session_state.feedback_msg = "Jogo Inicializado."
 
 if 'posicao' not in st.session_state:
     reiniciar_jogo()
@@ -103,5 +102,6 @@ st.write("A norma aponta o que fazer, mas deixa as equipes livres para escolher 
 
 st.markdown("---")
 
-# --- 3. EXIBIÇÃO DE FEEDBACKS DE ACERTO OU ERRO ---
-if st.session_state.feedback_msg:
+# --- 3. EXIBIÇÃO DE FEEDBACK DE FORMA SEGURA ---
+st.info(st.session_state.feedback_msg)
+
