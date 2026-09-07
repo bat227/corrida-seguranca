@@ -95,7 +95,7 @@ if not st.session_state.jogando:
         st.write("### 🕶️ Morfeu diz:")
         st.info("'Esta é a sua última chance. Escolha a pílula vermelha, registre-se na Matrix da Segurança e veja até onde vai a toca do coelho...'")
     
-    with st.expansor("🧠 [CLIQUE AQUI] Ver Documentação de Engenharia de Software (ISO 12207)"):
+    with st.expander("🧠 [CLIQUE AQUI] Ver Documentação de Engenharia de Software (ISO 12207)"):
         st.markdown("""
         *   **Qualidade e Estrutura:** Divisão do projeto em etapas bem definidas.
         *   **Mitigação de Riscos:** Uso de *Tailoring* (Adaptação) para entregar o protótipo.
@@ -112,6 +112,8 @@ if not st.session_state.jogando:
             st.session_state.jogando = True
             st.session_state.log_evento = "Conexão estabelecida. Entrando na Matrix corporativa..."
             st.rerun()
+        else:
+            st.warning("É preciso digitar um codinome para descriptografar o acesso.")
 else:
     if st.session_state.game_over or st.session_state.pontos <= 0:
         col_char, col_text = st.columns(2)
@@ -165,4 +167,3 @@ else:
                 if st.session_state.posicao in CASAS_ESPECIAIS:
                     ev = CASAS_ESPECIAIS[st.session_state.posicao]
                     st.session_state.posicao += ev["efeito"]
-                    st.session_state.pontos += (ev["efeito"] * 100)
