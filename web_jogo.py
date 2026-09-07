@@ -48,7 +48,6 @@ if 'posicao' not in st.session_state:
     st.session_state.log_evento = ""
 
 st.title("🛡️ Corrida pela Segurança Digital")
-
 # ========================================================
 # TELA DE INTRODUÇÃO E IMPORTÂNCIA DA ISO 12207
 # ========================================================
@@ -76,7 +75,7 @@ if not st.session_state.jogando:
             st.session_state.tempo_inicio = time.time()
             st.session_state.jogando = True
             st.session_state.log_evento = "Partida iniciada! Avance até a casa final respondendo aos desafios."
-            st.st.rerun() if hasattr(st, "rerun") else st.experimental_rerun()
+            st.rerun()
         else:
             st.warning("Por favor, digite um nome para começar.")
 
@@ -107,7 +106,7 @@ else:
         
         if st.button("🔄 Jogar Novamente"):
             st.session_state.jogando = False
-            st.st.rerun() if hasattr(st, "rerun") else st.experimental_rerun()
+            st.rerun()
 
     elif not st.session_state.mostrar_quiz:
         if st.button("🎲 Girar o Dado"):
@@ -126,21 +125,21 @@ else:
                 st.session_state.mostrar_quiz = True
                 st.session_state.quiz_atual = random.choice(st.session_state.perguntas)
                 
-            st.st.rerun() if hasattr(st, "rerun") else st.experimental_rerun()
-    else:
-        st.write("---")
-        st.write(f"⚡ **[DESAFIO FLIPPITY]** {st.session_state.quiz_atual['pergunta']}")
-        resposta = st.radio("Escolha uma alternativa:", st.session_state.quiz_atual['opcoes'])
-        
-        if st.button("Confirmar Resposta"):
-            idx_resposta = st.session_state.quiz_atual['opcoes'].index(resposta)
-            if idx_resposta == st.session_state.quiz_atual['correta']:
-                st.session_state.pontos += 200
-                st.session_state.posicao += 1
-                st.session_state.log_evento = "🎉 Resposta CORRETA! Você ganhou +200 pontos e +1 casa bônus!"
-            else:
-                st.session_state.pontos -= 150
-                st.session_state.log_evento = f"❌ Resposta INCORRETA! O sistema removeu 150 pontos."
-                
-            st.session_state.mostrar_quiz = False
-            st.st.rerun() if hasattr(st, "rerun") else st.experimental_rerun()
+            st.rerun()
+else:
+    st.write("---")
+    st.write(f"⚡ **[DESAFIO FLIPPITY]** {st.session_state.quiz_atual['pergunta']}")
+    resposta = st.radio("Escolha uma alternativa:", st.session_state.quiz_atual['opcoes'])
+    
+    if st.button("Confirmar Resposta"):
+        idx_resposta = st.session_state.quiz_atual['opcoes'].index(resposta)
+        if idx_resposta == st.session_state.quiz_atual['correta']:
+            st.session_state.pontos += 200
+            st.session_state.posicao += 1
+            st.session_state.log_evento = "🎉 Resposta CORRETA! Você ganhou +200 pontos e +1 casa bônus!"
+        else:
+            st.session_state.pontos -= 150
+            st.session_state.log_evento = f"❌ Resposta INCORRETA! O sistema removeu 150 pontos."
+            
+        st.session_state.mostrar_quiz = False
+        st.rerun()
