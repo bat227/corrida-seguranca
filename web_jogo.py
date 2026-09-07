@@ -82,13 +82,12 @@ if 'posicao' not in st.session_state:
 st.title("🟢 Corrida pela Segurança Digital")
 
 # ========================================================
-# TRILHA SONORA CYBERPUNK GARANTIDA VIA WIKIMEDIA 🎵
+# AUDIO PLAYER EM HTML (BLINDADO CONTRA BLOQUEIOS) 🎵
 # ========================================================
-url_som_wikimedia = "https://wikimedia.org"
-st.caption("🔊 **Trilha Cyberpunk Matrix: Clique no Play da barra abaixo para liberar o áudio**")
-st.audio(url_som_wikimedia, format="audio/mp3", loop=True)
+st.caption("🔊 **Trilha Cyberpunk Matrix: Clique no botão de reprodução abaixo para liberar o áudio**")
+st.markdown('<audio src="https://archive.org" controls loop style="width:100%; filter: invert(1);"></audio>', unsafe_allow_html=True)
 
-# Botão fixo no topo para limpar estados travados do navegador
+# Botão para redefinir a partida
 if st.button("🔄 Resetar Sistema (Voltar ao Início)"):
     st.session_state.posicao = 0
     st.session_state.pontos = 1000
@@ -159,3 +158,4 @@ else:
                 st.markdown(f"Acesso concedido. Porém, sua rede sofreu {erros} vazamento(s) temporário(s) de pacotes.")
         else:
             st.subheader("⚠️ NOTA: PROTETOR PASSIVO")
+            st.markdown("Você venceu contando com os algoritmos aleatórios de movimento.")
