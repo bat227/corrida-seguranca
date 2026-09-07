@@ -36,6 +36,16 @@ st.markdown("""
         color: #00ff00 !important;
         border: 1px solid #00ff00 !important;
     }
+    /* Estilização especial para o botão de abortar missão no rodapé */
+    div.element-container:has(button:contains("ABORT_MISSION")) button {
+        background-color: #220000 !important;
+        color: #ff3333 !important;
+        border: 1px solid #ff3333 !important;
+    }
+    div.element-container:has(button:contains("ABORT_MISSION")) button:hover {
+        background-color: #ff3333 !important;
+        color: #000000 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -82,21 +92,11 @@ if 'posicao' not in st.session_state:
 
 st.title("🟢 Corrida pela Segurança Digital")
 
-# Botão fixo no topo para limpar estados travados do navegador
-if st.button("🔄 Resetar Sistema (Voltar ao Início)"):
-    st.session_state.posicao = 0
-    st.session_state.pontos = 1000
-    st.session_state.jogando = False
-    st.session_state.mostrar_quiz = False
-    st.session_state.game_over = False
-    st.session_state.ultimo_personagem = "morfeu"
-    st.rerun()
-
 # ========================================================
-# EXECUÇÃO DO JOGO
+# EXECUÇÃO DA INTERFACE DO JOGO
 # ========================================================
 if not st.session_state.jogando:
-    col_char, col_text = st.columns([1, 3])
+    col_char, col_text = st.columns()
     with col_char:
         st.code("""
   😎 MORFEU
@@ -104,7 +104,7 @@ if not st.session_state.jogando:
 
    | O   O |
    |   v   |
-   \ ===== /
+   \\ ===== /
         """, language="markdown")
     with col_text:
         st.write("### 🕶️ Morfeu diz:")
@@ -115,8 +115,8 @@ if not st.session_state.jogando:
     A **ISO/IEC 12207** é a norma internacional de referência para os **Processos de Ciclo de Vida de Software**. A sua importância no desenvolvimento deste jogo se justifica por:
     
     *   **Qualidade e Estrutura:** Ela divide o projeto em etapas bem definidas (Requisitos, Design, Construção e Testes).
-    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo perfeitamente funcional dentro do prazo.
-    *   **Manutenibilidade:** Separa os dados das perguntas da camada de visualização, facilitando melhorias contínuas.
+    *   **Mitigação de Riscos:** Através do conceito de *Tailoring* (Adaptação), entregamos um protótipo funcional dentro do prazo da faculdade.
+    *   **Manutenibilidade:** Separa os dados das perguntas da camada visual, permitindo correções rápidas sem quebrar o jogo.
     ---
     """)
     
@@ -139,17 +139,17 @@ if not st.session_state.jogando:
 else:
     # SISTEMA DE GAME OVER 🚨
     if st.session_state.game_over or st.session_state.pontos <= 0:
-        col_char, col_text = st.columns([1, 3])
+        col_char, col_text = st.columns()
         with col_char:
             st.code("""
   🕴️ AGENTE SMITH
     _______
-   / _   _ \
+   / _   _ \\
 
   | (O) (O) |
   |    |    |
-   \  ___  /
-    \_____/
+   \\  ___  /
+    \\_____/
             """, language="markdown")
         with col_text:
             st.error("🚨 CONEXÃO INTERROMPIDA PELOS AGENTES!")
@@ -167,17 +167,17 @@ else:
         st.balloons()
         st.success(f"🏆 SISTEMA TOTALMENTE DOMINADO! Você cruzou o Mainframe em {tempo_total}s com {st.session_state.pontos} pontos!")
         
-        col_char, col_text = st.columns([1, 3])
+        col_char, col_text = st.columns()
         with col_char:
             st.code("""
   😎 NEO (VOCÊ)
     _______
-   /       \
+   /       \\
 
   |  O   O  |
   |    ^    |
-   \  ===  /
-    \_____/
+   \\  ===  /
+    \\_____/
             """, language="markdown")
         with col_text:
             st.write("### ⚡ Oráculo emite o Relatório:")
@@ -186,4 +186,3 @@ else:
                     st.subheader("🌟 NOTA: 10/10 - VOCÊ É O ESCOLHIDO!")
                     st.markdown("Incrível! Você enxergou as linhas de código da LGPD e salvou a empresa sem cometer erros de privacidade.")
                 else:
-                    st.subheader(f"📊 NOTA: {st.session_state.quizzes_acertados} de {st.session_state.quizzes_respondidos} patches aplicados.")
