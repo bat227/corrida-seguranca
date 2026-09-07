@@ -98,7 +98,7 @@ if st.button("🔄 Resetar Sistema (Voltar ao Início)"):
     st.rerun()
 
 # ========================================================
-# TELA INICIAL COM LOGIN E INTRODUÇÃO
+# EXECUÇÃO DO JOGO
 # ========================================================
 if not st.session_state.jogando:
     st.markdown("""
@@ -131,7 +131,6 @@ if not st.session_state.jogando:
         else:
             st.warning("Por favor, preencha a credencial de identificação.")
 
-# Tela de Jogo Ativo / Fim de Jogo
 else:
     # SISTEMA DE GAME OVER 🚨
     if st.session_state.game_over or st.session_state.pontos <= 0:
@@ -159,3 +158,4 @@ else:
                 st.subheader(f"📊 NOTA: {st.session_state.quizzes_acertados} de {st.session_state.quizzes_respondidos} patches aplicados.")
                 st.markdown(f"Acesso concedido. Porém, sua rede sofreu {erros} vazamento(s) temporário(s) de pacotes.")
         else:
+            st.subheader("⚠️ NOTA: PROTETOR PASSIVO")
