@@ -48,7 +48,6 @@ if 'posicao' not in st.session_state:
     st.session_state.log_evento = ""
 
 st.title("🛡️ Corrida pela Segurança Digital")
-st.subheader("Trabalho Acadêmico de Engenharia de Software")
 
 # ========================================================
 # TELA DE INTRODUÇÃO E IMPORTÂNCIA DA ISO 12207
